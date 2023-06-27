@@ -65,7 +65,7 @@ export default function Blog() {
   const { push } = useRouter()
 
   const [{ data: ListData = [] }] = useAxios<any>({
-    baseURL: "https://airbnb-nodejs-simple.vercel.app",
+    baseURL: "https://antaratma-nodejs-be.vercel.app",
     url: "/api/places",
   })
 
