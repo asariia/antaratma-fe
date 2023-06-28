@@ -55,10 +55,10 @@ const mainFeaturedPost = {
 const defaultTheme = createTheme()
 
 export default function Blog() {
-  const { push } = useRouter()
+  const { push } = useRouter();
 
   const [{ data: ListData = [] }] = useAxios<any>({
-    baseURL: "https://antaratma-nodejs-be.vercel.app",
+    baseURL: process.env.NEXT_PUBLIC_BASEURL,
     url: "/api/places",
   })
 

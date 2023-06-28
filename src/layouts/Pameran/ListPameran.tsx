@@ -27,12 +27,12 @@ export default function ListPameran() {
   const { push } = useRouter()
 
   const [{ data: ListOfflineData = [] }] = useAxios<any>({
-    baseURL: "https://antaratma-nodejs-be.vercel.app",
+    baseURL: process.env.NEXT_PUBLIC_BASEURL,
     url: "/api/places",
   })
 
   const [{ data: ListOnlineData = [] }] = useAxios<any>({
-    baseURL: "https://antaratma-nodejs-be.vercel.app",
+    baseURL: process.env.NEXT_PUBLIC_BASEURL,
     url: "/api/places",
   })
 

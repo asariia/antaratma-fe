@@ -25,13 +25,8 @@ export default function SignInSide() {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     const data = new FormData(event.currentTarget)
-    console.log({
-      name: data.get("name"),
-      email: data.get("email"),
-      password: data.get("password"),
-    })
 
-    const response = await fetch("http://localhost:4000/api/register", {
+    const response = await fetch(process.env.NEXT_PUBLIC_BASEURL + "/api/register", {
       method: "POST",
       body: JSON.stringify({
         name: data.get("name"),
@@ -41,7 +36,6 @@ export default function SignInSide() {
       headers: { "Content-Type": "application/json" },
       credentials: "include",
     })
-    console.log({ response })
 
     if (response.ok) {
       response.json().then((userInfo) => {

@@ -14,10 +14,10 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined"
 import Typography from "@mui/material/Typography"
 import { createTheme, ThemeProvider } from "@mui/material/styles"
 import { useRouter } from "next/navigation"
-import useAxios from "axios-hooks"
 import { setCookie } from "@/tools/helper"
 import { UserContext } from "@/app/UserContext"
 import Copyright from "@/components/CopyRight/Copyright"
+import 'dotenv/config'
 
 // TODO remove, this demo shouldn't need to reset the theme.
 const defaultTheme = createTheme()
@@ -25,43 +25,6 @@ const defaultTheme = createTheme()
 export default function SignInSide() {
   const { push } = useRouter()
   const { user, setUser } = React.useContext(UserContext)
-
-  // const [{ data, loading, error }, refetch] = useAxios<any>({
-  //   baseURL: "https://https://antaratma-nodejs-be.vercel.app/",
-  //   url: "/login",
-  // });
-
-  // const [{ data: getData, loading: getLoading, error: getError }] = useAxios(
-  //   'https://reqres.in/api/users/1'
-  // )
-
-  // const [{ data: ListData, loading, error }, refetch] = useAxios<any>({
-  //   baseURL: "https://https://antaratma-nodejs-be.vercel.app/",
-  //   url: "/login",
-  // });
-
-  // const [
-  //   { data: LoginData, loading: loginLoading, error: loginError },
-  //   executeLogin
-  // ] = useAxios(
-  //   {
-  //     baseURL: "https://https://antaratma-nodejs-be.vercel.app/api",
-  //     url: "/login",
-  //     method: 'POST'
-  //   },
-  //   { manual: true }
-  // )
-
-  // function updateData() {
-  // }
-
-  // useEffect(() => {
-  //   // console.log(push)
-  //   // push('/');
-  //     // if (!isReady) return; //The query string parameters might not be loaded straight away, but isReady will be true when they are
-  //     // if (!query.userId) push('/examples/login');
-  //     console.log({LoginData})
-  // }, [LoginData]);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -73,7 +36,7 @@ export default function SignInSide() {
     })
 
     const response = await fetch(
-      "https://antaratma-nodejs-be.vercel.app/api/login",
+      process.env.NEXT_PUBLIC_BASEURL + "/api/login",
       {
         method: "POST",
         body: JSON.stringify({
