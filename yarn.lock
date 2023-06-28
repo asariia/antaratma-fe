@@ -3787,6 +3787,11 @@ uri-js@^4.2.2:
   dependencies:
     punycode "^2.1.0"
 
+use-state-with-callback@^3.0.2:
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/use-state-with-callback/-/use-state-with-callback-3.0.2.tgz#69c73179292393e2c35fb8b12cf61bb3314cf205"
+  integrity sha512-gs6t5ilsbi2UvoYXdw8+dwQg6yT3QfO/sYhm5Wa3tfwcL6BSad85FiET8ZtTWid4gjul1T1TJ8ReV4Wk1B7UZg==
+
 uvu@^0.5.0:
   version "0.5.6"
   resolved "https://registry.yarnpkg.com/uvu/-/uvu-0.5.6.tgz#2754ca20bcb0bb59b64e9985e84d2e81058502df"

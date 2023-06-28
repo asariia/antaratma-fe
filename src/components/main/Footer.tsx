@@ -1,29 +1,12 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
-import Typography from '@mui/material/Typography';
 import Link from '@mui/material/Link';
-import { Toolbar } from '@mui/material';
 import Copyright from '@/components/CopyRight/Copyright';
+import { Toolbar } from '@mui/material';
+import { sections } from "@/tools/helper"
 
-interface FooterProps {
-  description: string;
-  title: string;
-  sections: ReadonlyArray<{
-    title: string;
-    url: string;
-  }>;
-}
-
-export default function Footer(props: FooterProps) {
-  const { description, title } = props;
-
-  const sections = [
-    { title: 'Home', url: '/' },
-    { title: 'Pameran', url: '/pameran' },
-    { title: 'Blog', url: '/artikel' },
-    { title: 'Tentang Kami', url: '/about' },
-  ];
+export default function Footer() {
   
   return (
     <Box component="footer" sx={{ bgcolor: 'background.paper', py: 6 }}>

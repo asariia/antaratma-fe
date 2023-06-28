@@ -23,13 +23,6 @@ import useAxios from "axios-hooks"
 import { descTrim } from "@/tools/helper"
 import { useRouter } from "next/navigation"
 
-const sections = [
-  { title: "Home", url: "/" },
-  { title: "Pameran", url: "/pameran" },
-  { title: "Blog", url: "/artikel" },
-  { title: "Tentang Kami", url: "#" },
-]
-
 const sectionsOffline = [
   { title: "The Truth Inside You", url: "#" },
   { title: "Pameran Tetap", url: "#" },
@@ -73,15 +66,9 @@ export default function Blog() {
     <ThemeProvider theme={defaultTheme}>
       <CssBaseline />
       <Container maxWidth="xl">
-        <Header title="Antaratma" sections={sections} />
+        <Header />
         <main>
           <MainFeaturedPost post={mainFeaturedPost} />
-          {/* <Grid container spacing={4}>
-            {featuredPosts.map((post) => (
-              <FeaturedPost key={post.title} post={post} />
-            ))}
-          </Grid> */}
-          {/* <Grid container spacing={5} sx={{ mt: 3 }}> */}
           <Box
             sx={{
               bgcolor: "background.paper",
@@ -256,40 +243,16 @@ export default function Blog() {
                         >
                           View
                         </Button>
-                        {/* <Button size="small">Edit</Button> */}
                       </CardActions>
                     </Card>
                   </Grid>
                 ))}
               </Grid>
-
-              {/* <SwiperAutoSwitch direction={'rtl'} /> */}
-              {/* <Stack
-              sx={{ pt: 4 }}
-              direction="row"
-              spacing={2}
-              justifyContent="center"
-            >
-              <Button variant="contained">Main call to action</Button>
-              <Button variant="outlined">Secondary action</Button>
-            </Stack> */}
             </Container>
           </Box>
-          {/* <Main title="From the firehose" posts={posts} />
-            <Sidebar
-              title={sidebar.title}
-              description={sidebar.description}
-              archives={sidebar.archives}
-              social={sidebar.social}
-            /> */}
-          {/* </Grid> */}
         </main>
       </Container>
-      <Footer
-        title="Footer"
-        sections={sections}
-        description="Something here to give the footer a purpose!"
-      />
+      <Footer />
     </ThemeProvider>
   )
 }

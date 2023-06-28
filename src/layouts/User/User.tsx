@@ -14,7 +14,6 @@ import {
   CardContent,
   Typography,
   Box,
-  Icon,
   Divider,
   CardActions,
   Dialog,
@@ -23,24 +22,11 @@ import {
   DialogContentText,
   TextField,
   InputAdornment,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
-  FormControlLabel,
-  Switch,
   DialogActions,
-  LinearProgress,
-  styled,
   CardMedia,
 } from "@mui/material"
 import CustomAvatar from "@/components/mui/avatar"
-import IconifyIcon from "@/components/icon"
 import { getInitials } from "@/tools/get-initials"
-
-interface ColorsType {
-  [key: string]: any
-}
 
 const data: any = {
   id: 1,
@@ -57,12 +43,6 @@ const data: any = {
   avatar: "/images/avatars/4.png",
 }
 
-const sections = [
-  { title: "Home", url: "#" },
-  { title: "Pameran", url: "#" },
-  { title: "Blog", url: "#" },
-  { title: "Tentang Kami", url: "#" },
-]
 
 // TODO remove, this demo shouldn't need to reset the theme.
 const defaultTheme = createTheme()
@@ -82,7 +62,7 @@ export default function DetailPameran() {
       <ThemeProvider theme={defaultTheme}>
         <CssBaseline />
         <Container maxWidth="xl">
-          <Header title="Antaratma" sections={sections} />
+          <Header />
 
           <Button
             variant="outlined"
@@ -370,7 +350,6 @@ export default function DetailPameran() {
                         <Button size="small" onClick={() => console.log('123')}>
                           View
                         </Button>
-                        {/* <Button size="small">Edit</Button> */}
                       </CardActions>
                     </Card>
                   </Grid>
@@ -379,11 +358,7 @@ export default function DetailPameran() {
             </Grid>
           </Grid>
         </Container>
-        <Footer
-          title="Footer"
-          sections={sections}
-          description="Something here to give the footer a purpose!"
-        />
+        <Footer />
       </ThemeProvider>
     )
   } else {

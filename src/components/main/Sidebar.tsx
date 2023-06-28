@@ -1,10 +1,9 @@
 import * as React from 'react';
 import Grid from '@mui/material/Grid';
-import Stack from '@mui/material/Stack';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import Link from '@mui/material/Link';
-import { Card, CardMedia, CardContent, CardActions, Button } from '@mui/material';
+import { Card, CardMedia, CardContent } from '@mui/material';
 
 interface SidebarProps {
   archives: ReadonlyArray<{
@@ -12,15 +11,11 @@ interface SidebarProps {
     title: string;
   }>;
   description: string;
-  social: ReadonlyArray<{
-    icon: React.ElementType;
-    name: string;
-  }>;
   title: string;
 }
 
 export default function Sidebar(props: SidebarProps) {
-  const { archives, description, social, title } = props;
+  const { archives, description, title } = props;
 
   return (
     <Grid item xs={12} md={4}>
