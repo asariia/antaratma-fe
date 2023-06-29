@@ -26,13 +26,11 @@ const defaultTheme = createTheme()
 export default function ListPameran() {
   const { push } = useRouter()
 
-  const [{ data: ListOfflineData = [] }] = useAxios<any>({
-    baseURL: process.env.NEXT_PUBLIC_BASEURL,
+  const [{ data: ListOfflineData = [], error: errOff, loading: loadOff }] = useAxios<any>({
     url: "/api/places",
   })
 
-  const [{ data: ListOnlineData = [] }] = useAxios<any>({
-    baseURL: process.env.NEXT_PUBLIC_BASEURL,
+  const [{ data: ListOnlineData = [], error: errOn, loading: loadOn }] = useAxios<any>({
     url: "/api/places",
   })
 
@@ -80,6 +78,24 @@ export default function ListPameran() {
               </Typography>
 
               <Grid container spacing={4}>
+                {errOff && !ListOfflineData.length && <Typography
+                  component="h3"
+                  variant="h4"
+                  align="center"
+                  color="text.primary"
+                  gutterBottom
+                >
+                  Data Empty
+                </Typography>}
+                {loadOff && <Typography
+                  component="h3"
+                  variant="h4"
+                  align="center"
+                  color="text.primary"
+                  gutterBottom
+                >
+                  Loading...
+                </Typography>}
                 {ListOfflineData.map((e: any) => (
                   <Grid item xs={12} sm={6} md={4} key={e._id}>
                     <Card
@@ -128,6 +144,24 @@ export default function ListPameran() {
               </Typography>
 
               <Grid container spacing={4}>
+                {errOn && !ListOnlineData.length && <Typography
+                  component="h3"
+                  variant="h4"
+                  align="center"
+                  color="text.primary"
+                  gutterBottom
+                >
+                  Data Empty
+                </Typography>}
+                {loadOn && <Typography
+                  component="h3"
+                  variant="h4"
+                  align="center"
+                  color="text.primary"
+                  gutterBottom
+                >
+                  Loading...
+                </Typography>}
                 {ListOnlineData.map((e: any) => (
                   <Grid item xs={12} sm={6} md={4} key={e._id}>
                     <Card
@@ -158,7 +192,6 @@ export default function ListPameran() {
                         >
                           View
                         </Button>
-                        {/* <Button size="small">Edit</Button> */}
                       </CardActions>
                     </Card>
                   </Grid>

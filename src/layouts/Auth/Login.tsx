@@ -17,7 +17,11 @@ import { useRouter } from "next/navigation"
 import { setCookie } from "@/tools/helper"
 import { UserContext } from "@/app/UserContext"
 import Copyright from "@/components/CopyRight/Copyright"
-import 'dotenv/config'
+import "dotenv/config"
+import axios from "axios"
+
+axios.defaults.baseURL = process.env.NEXT_PUBLIC_BASEURL
+axios.defaults.withCredentials = true
 
 // TODO remove, this demo shouldn't need to reset the theme.
 const defaultTheme = createTheme()
@@ -25,50 +29,24 @@ const defaultTheme = createTheme()
 export default function SignInSide() {
   const { push } = useRouter()
   const { user, setUser } = React.useContext(UserContext)
+  if (user) return push("/")
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    const data = new FormData(event.currentTarget)
-
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    })
-
-    const response = await fetch(
-      process.env.NEXT_PUBLIC_BASEURL + "/api/login",
-      {
-        method: "POST",
-        body: JSON.stringify({
-          email: data.get("email"),
-          password: data.get("password"),
-        }),
-        headers: { "Content-Type": "application/json" },
-        credentials: "include",
-      }
-    )
-
-    if (response.ok) {
-      response.json().then((userInfo) => {
-        console.log({ userInfo })
-        setCookie("token", userInfo.token)
-        setUser(userInfo)
-        console.log({ user })
-        push("/")
-      })
-    } else {
-      alert("wrong credentials")
+    const form = new FormData(event.currentTarget)
+    const payload = {
+      email: form.get("email"),
+      password: form.get("password"),
     }
 
-    console.log({ response })
-
-    // executeLogin({
-    //   data: { email:  data.get('email'), password: data.get('password') }
-    // })
+    const { data, status } = await axios.post("/login", payload)
+    if (status === 200) {
+      setCookie("token", data.token)
+      setUser(data)
+      return push("/")
+    }
+    alert("wrong credentials")
   }
-
-  // if (loginLoading) return <p>Loading...</p>
-  // if (loginError) return <p>Error!</p>
 
   return (
     <ThemeProvider theme={defaultTheme}>

@@ -58,7 +58,6 @@ export default function Blog() {
   const { push } = useRouter();
 
   const [{ data: ListData = [] }] = useAxios<any>({
-    baseURL: process.env.NEXT_PUBLIC_BASEURL,
     url: "/api/places",
   })
 

@@ -15,12 +15,15 @@ import Typography from "@mui/material/Typography"
 import { createTheme, ThemeProvider } from "@mui/material/styles"
 import Copyright from "@/components/CopyRight/Copyright"
 import { useRouter } from "next/navigation"
+import { UserContext } from "@/app/UserContext"
 
 // TODO remove, this demo shouldn't need to reset the theme.
 const defaultTheme = createTheme()
 
 export default function SignInSide() {
   const { push } = useRouter()
+  const { user } = React.useContext(UserContext)
+  if (user)push("/")
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
