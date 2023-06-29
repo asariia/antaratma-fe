@@ -1,6 +1,7 @@
 "use client"
 
 import * as React from "react"
+
 import CssBaseline from "@mui/material/CssBaseline"
 import Grid from "@mui/material/Grid"
 import Container from "@mui/material/Container"
@@ -10,15 +11,17 @@ import Footer from "@/components/main/Footer"
 import Box from "@mui/material/Box"
 import Typography from "@mui/material/Typography"
 import Button from "@mui/material/Button"
-import {
-  Card,
-  CardContent,
-  CardMedia,
-  CardActions,
-} from "@mui/material"
+import { Card, CardContent, CardMedia, CardActions } from "@mui/material"
+
 import { useRouter } from "next/navigation"
-import useAxios from "axios-hooks"
 import { descTrim } from "@/tools/helper"
+import axios from "axios"
+import { makeUseAxios } from "axios-hooks"
+import { config } from "@/tools/helper"
+
+const useAxios = makeUseAxios({
+  axios: axios.create({ baseURL: process.env.NEXT_PUBLIC_BASEURL, ...config }),
+})
 
 // TODO remove, this demo shouldn't need to reset the theme.
 const defaultTheme = createTheme()
@@ -26,12 +29,16 @@ const defaultTheme = createTheme()
 export default function ListPameran() {
   const { push } = useRouter()
 
-  const [{ data: ListOfflineData = [], error: errOff, loading: loadOff }] = useAxios<any>({
-    url: "/api/places",
+  const [
+    { data: ListOfflineData = [], error: errOff, loading: loadOff },
+  ] = useAxios<any>({
+    url: "/places?online=false",
   })
 
-  const [{ data: ListOnlineData = [], error: errOn, loading: loadOn }] = useAxios<any>({
-    url: "/api/places",
+  const [
+    { data: ListOnlineData = [], error: errOn, loading: loadOn },
+  ] = useAxios<any>({
+    url: "/places?online=true",
   })
 
   return (
@@ -77,61 +84,60 @@ export default function ListPameran() {
                 Pameran Offline
               </Typography>
 
-              <Grid container spacing={4}>
-                {errOff && !ListOfflineData.length && <Typography
-                  component="h3"
-                  variant="h4"
-                  align="center"
-                  color="text.primary"
-                  gutterBottom
-                >
-                  Data Empty
-                </Typography>}
-                {loadOff && <Typography
-                  component="h3"
-                  variant="h4"
-                  align="center"
-                  color="text.primary"
-                  gutterBottom
-                >
+              {loadOff && (
+                <Typography align="center" color="text.secondary" paragraph>
                   Loading...
-                </Typography>}
-                {ListOfflineData.map((e: any) => (
-                  <Grid item xs={12} sm={6} md={4} key={e._id}>
-                    <Card
-                      sx={{
-                        height: "100%",
-                        display: "flex",
-                        flexDirection: "column",
-                      }}
-                    >
-                      <CardMedia
-                        component="div"
-                        sx={{
-                          // 16:9
-                          pt: "56.25%",
-                        }}
-                        image="https://source.unsplash.com/random?wallpapers"
-                      />
-                      <CardContent sx={{ flexGrow: 1 }}>
-                        <Typography gutterBottom variant="h5" component="h2">
-                          {e.title}
-                        </Typography>
-                        <Typography>{descTrim(e.description)}</Typography>
-                      </CardContent>
-                      <CardActions>
-                        <Button
-                          size="small"
-                          onClick={() => push("/pameran/" + e)}
+                </Typography>
+              )}
+              {((errOff || !ListOfflineData.length) && (
+                <Typography align="center" color="text.secondary" paragraph>
+                  Data Empty
+                </Typography>
+              )) || (
+                <Container maxWidth="lg">
+                  <Grid container spacing={4}>
+                    {ListOfflineData.map((e: any) => (
+                      <Grid item xs={12} sm={6} md={4} key={e._id}>
+                        <Card
+                          sx={{
+                            height: "100%",
+                            display: "flex",
+                            flexDirection: "column",
+                          }}
                         >
-                          View
-                        </Button>
-                        {/* <Button size="small">Edit</Button> */}
-                      </CardActions>
-                    </Card>
+                          <CardMedia
+                            component="div"
+                            sx={{
+                              // 16:9
+                              pt: "56.25%",
+                            }}
+                            image="https://source.unsplash.com/random?wallpapers"
+                          />
+                          <CardContent sx={{ flexGrow: 1 }}>
+                            <Typography
+                              gutterBottom
+                              variant="h5"
+                              component="h2"
+                            >
+                              {e.title}
+                            </Typography>
+                            <Typography>{descTrim(e.description)}</Typography>
+                          </CardContent>
+                          <CardActions>
+                            <Button
+                              size="small"
+                              onClick={() => push("/pameran/" + e)}
+                            >
+                              View
+                            </Button>
+                            {/* <Button size="small">Edit</Button> */}
+                          </CardActions>
+                        </Card>
+                      </Grid>
+                    ))}
                   </Grid>
-                ))}
-              </Grid>
+                </Container>
+              )}
 
               <Typography
                 component="h4"
@@ -143,60 +149,59 @@ export default function ListPameran() {
                 Pameran Online
               </Typography>
 
-              <Grid container spacing={4}>
-                {errOn && !ListOnlineData.length && <Typography
-                  component="h3"
-                  variant="h4"
-                  align="center"
-                  color="text.primary"
-                  gutterBottom
-                >
-                  Data Empty
-                </Typography>}
-                {loadOn && <Typography
-                  component="h3"
-                  variant="h4"
-                  align="center"
-                  color="text.primary"
-                  gutterBottom
-                >
+              {loadOn && (
+                <Typography align="center" color="text.secondary" paragraph>
                   Loading...
-                </Typography>}
-                {ListOnlineData.map((e: any) => (
-                  <Grid item xs={12} sm={6} md={4} key={e._id}>
-                    <Card
-                      sx={{
-                        height: "100%",
-                        display: "flex",
-                        flexDirection: "column",
-                      }}
-                    >
-                      <CardMedia
-                        component="div"
-                        sx={{
-                          // 16:9
-                          pt: "56.25%",
-                        }}
-                        image="https://source.unsplash.com/random?wallpapers"
-                      />
-                      <CardContent sx={{ flexGrow: 1 }}>
-                        <Typography gutterBottom variant="h5" component="h2">
-                          {e.title}
-                        </Typography>
-                        <Typography>{descTrim(e.description)}</Typography>
-                      </CardContent>
-                      <CardActions>
-                        <Button
-                          size="small"
-                          onClick={() => push("/pameran/" + e)}
+                </Typography>
+              )}
+              {((errOn || !ListOnlineData.length) && (
+                <Typography align="center" color="text.secondary" paragraph>
+                  Data Empty
+                </Typography>
+              )) || (
+                <Container maxWidth="lg">
+                  <Grid container spacing={4}>
+                    {ListOnlineData.map((e: any) => (
+                      <Grid item xs={12} sm={6} md={4} key={e._id}>
+                        <Card
+                          sx={{
+                            height: "100%",
+                            display: "flex",
+                            flexDirection: "column",
+                          }}
                         >
-                          View
-                        </Button>
-                      </CardActions>
-                    </Card>
+                          <CardMedia
+                            component="div"
+                            sx={{
+                              // 16:9
+                              pt: "56.25%",
+                            }}
+                            image="https://source.unsplash.com/random?wallpapers"
+                          />
+                          <CardContent sx={{ flexGrow: 1 }}>
+                            <Typography
+                              gutterBottom
+                              variant="h5"
+                              component="h2"
+                            >
+                              {e.title}
+                            </Typography>
+                            <Typography>{descTrim(e.description)}</Typography>
+                          </CardContent>
+                          <CardActions>
+                            <Button
+                              size="small"
+                              onClick={() => push("/pameran/" + e)}
+                            >
+                              View
+                            </Button>
+                          </CardActions>
+                        </Card>
+                      </Grid>
+                    ))}
                   </Grid>
-                ))}
-              </Grid>
+                </Container>
+              )}
             </Container>
           </Box>
         </Box>

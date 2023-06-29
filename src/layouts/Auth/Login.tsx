@@ -29,7 +29,7 @@ const defaultTheme = createTheme()
 export default function SignInSide() {
   const { push } = useRouter()
   const { user, setUser } = React.useContext(UserContext)
-  if (user) return push("/")
+  // if (user) return push("/")
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()

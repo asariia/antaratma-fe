@@ -3,6 +3,7 @@ import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
 import Markdown from './Markdown';
+import axios from 'axios';
 
 interface MainProps {
   posts: ReadonlyArray<string>;
@@ -11,6 +12,8 @@ interface MainProps {
 
 export default function Main(props: MainProps) {
   const { posts, title } = props;
+
+  axios
 
   return (
     <Grid

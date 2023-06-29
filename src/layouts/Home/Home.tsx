@@ -19,9 +19,15 @@ import {
   Chip,
   CardActions,
 } from "@mui/material"
-import useAxios from "axios-hooks"
 import { descTrim } from "@/tools/helper"
 import { useRouter } from "next/navigation"
+import axios from "axios"
+import { makeUseAxios } from "axios-hooks"
+import { config } from "@/tools/helper"
+
+const useAxios = makeUseAxios({
+  axios: axios.create({ baseURL: process.env.NEXT_PUBLIC_BASEURL, ...config }),
+})
 
 const sectionsOffline = [
   { title: "The Truth Inside You", url: "#" },
@@ -55,9 +61,9 @@ const mainFeaturedPost = {
 const defaultTheme = createTheme()
 
 export default function Blog() {
-  const { push } = useRouter();
+  const { push } = useRouter()
 
-  const [{ data: ListData = [] }] = useAxios<any>({
+  const [{ data: ListData = [], error, loading }] = useAxios<any>({
     url: "/api/places",
   })
 
@@ -211,42 +217,53 @@ export default function Blog() {
                 </Typography>
               </Box>
 
-              <Grid container spacing={4}>
-                {ListData?.slice(0, 6)?.map((e: any) => (
-                  <Grid key={e._id} item xs={12} sm={6} md={4}>
-                    <Card
-                      sx={{
-                        height: "100%",
-                        display: "flex",
-                        flexDirection: "column",
-                      }}
-                    >
-                      <CardMedia
-                        component="div"
+              {loading && (
+                <Typography align="center" color="text.secondary" paragraph>
+                  Loading...
+                </Typography>
+              )}
+              {((error || !ListData.length) && (
+                <Typography align="center" color="text.secondary" paragraph>
+                  Data Empty
+                </Typography>
+              )) || (
+                <Grid container spacing={4}>
+                  {ListData?.slice(0, 6)?.map((e: any) => (
+                    <Grid key={e._id} item xs={12} sm={6} md={4}>
+                      <Card
                         sx={{
-                          // 16:9
-                          pt: "56.25%",
+                          height: "100%",
+                          display: "flex",
+                          flexDirection: "column",
                         }}
-                        image="https://source.unsplash.com/random?wallpapers"
-                      />
-                      <CardContent sx={{ flexGrow: 1 }}>
-                        <Typography gutterBottom variant="h5" component="h2">
-                          {e.title}
-                        </Typography>
-                        <Typography>{descTrim(e.description)}</Typography>
-                      </CardContent>
-                      <CardActions>
-                        <Button
-                          size="small"
-                          onClick={() => push("/artikel/" + e._id)}
-                        >
-                          View
-                        </Button>
-                      </CardActions>
-                    </Card>
-                  </Grid>
-                ))}
-              </Grid>
+                      >
+                        <CardMedia
+                          component="div"
+                          sx={{
+                            // 16:9
+                            pt: "56.25%",
+                          }}
+                          image="https://source.unsplash.com/random?wallpapers"
+                        />
+                        <CardContent sx={{ flexGrow: 1 }}>
+                          <Typography gutterBottom variant="h5" component="h2">
+                            {e.title}
+                          </Typography>
+                          <Typography>{descTrim(e.description)}</Typography>
+                        </CardContent>
+                        <CardActions>
+                          <Button
+                            size="small"
+                            onClick={() => push("/artikel/" + e._id)}
+                          >
+                            View
+                          </Button>
+                        </CardActions>
+                      </Card>
+                    </Grid>
+                  ))}
+                </Grid>
+              )}
             </Container>
           </Box>
         </main>
