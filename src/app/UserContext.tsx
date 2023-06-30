@@ -1,23 +1,16 @@
-'use client';
+'use client'
+// import { getCookie } from '@/tools/helper';
+import { createContext, useContext, useState } from "react";
 
-import * as React from 'react'
-import { useContext, useState } from 'react';
+const UserContext = createContext({})
 
-export const users = {
-    email: '',
-    id: '',
-    name: '',
-    token: '',
+export function UserProvider({ children }: any) {
+  const [user, setUser]: any = useState()
+  return (
+    <UserContext.Provider value={{user, setUser}}>{children}</UserContext.Provider>
+  );
 }
 
-export const UserContext = React.createContext({
-  user: undefined,
-  setUser: async (user: any) => null,
-})
-
-export const useUser = () => useContext(UserContext)
-
-export const UserProvider = ({ children}: any ) => {
-  const [user, setUser] : any = useState(users)
-  return <UserContext.Provider value={{ user, setUser }}>{children}</UserContext.Provider>
+export function useThemeContext() {
+  return useContext(UserContext);
 }

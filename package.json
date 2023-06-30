@@ -1,5 +1,5 @@
 {
-  "name": "material-next-app-router-ts",
+  "name": "antaratma-ts",
   "version": "5.0.0",
   "private": true,
   "scripts": {
@@ -28,6 +28,7 @@
     "next": "latest",
     "react": "latest",
     "react-dom": "latest",
+    "react-markdown": "^8.0.7",
     "use-state-with-callback": "^3.0.2"
   },
   "devDependencies": {

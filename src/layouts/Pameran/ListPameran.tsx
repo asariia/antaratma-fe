@@ -17,18 +17,23 @@ import { useRouter } from "next/navigation"
 import { descTrim } from "@/tools/helper"
 import axios from "axios"
 import { makeUseAxios } from "axios-hooks"
-import { config } from "@/tools/helper"
-
-const useAxios = makeUseAxios({
-  axios: axios.create({ baseURL: process.env.NEXT_PUBLIC_BASEURL, ...config }),
-})
+import { useThemeContext } from "@/app/UserContext"
 
 // TODO remove, this demo shouldn't need to reset the theme.
 const defaultTheme = createTheme()
 
 export default function ListPameran() {
   const { push } = useRouter()
+  const { user }: any = useThemeContext()
 
+  const useAxios = makeUseAxios({
+    axios: axios.create({
+      baseURL: process.env.NEXT_PUBLIC_BASEURL,
+      headers: {
+        Authorization: `Bearer ${user?.token}`,
+      },
+    }),
+  })
   const [
     { data: ListOfflineData = [], error: errOff, loading: loadOff },
   ] = useAxios<any>({
@@ -42,8 +47,6 @@ export default function ListPameran() {
   })
 
   return (
-    <ThemeProvider theme={defaultTheme}>
-      <CssBaseline />
       <Container maxWidth="xl">
         <Header />
         <Box>
@@ -89,7 +92,7 @@ export default function ListPameran() {
                   Loading...
                 </Typography>
               )}
-              {((errOff || !ListOfflineData.length) && (
+              {((errOff || !ListOfflineData.length) && !loadOn && (
                 <Typography align="center" color="text.secondary" paragraph>
                   Data Empty
                 </Typography>
@@ -154,7 +157,7 @@ export default function ListPameran() {
                   Loading...
                 </Typography>
               )}
-              {((errOn || !ListOnlineData.length) && (
+              {((errOn || !ListOnlineData.length) && !loadOn && (
                 <Typography align="center" color="text.secondary" paragraph>
                   Data Empty
                 </Typography>
@@ -191,7 +194,7 @@ export default function ListPameran() {
                           <CardActions>
                             <Button
                               size="small"
-                              onClick={() => push("/pameran/" + e)}
+                              onClick={() => push("/pameran/" + e._id)}
                             >
                               View
                             </Button>
@@ -206,7 +209,5 @@ export default function ListPameran() {
           </Box>
         </Box>
       </Container>
-      <Footer />
-    </ThemeProvider>
   )
 }

@@ -12,19 +12,32 @@ import Typography from "@mui/material/Typography"
 import Button from "@mui/material/Button"
 import { Card, CardContent, CardMedia, CardActions } from "@mui/material"
 import { useRouter } from "next/navigation"
+import axios from "axios"
+import { makeUseAxios } from "axios-hooks"
+import { useThemeContext } from "@/app/UserContext"
+
 
 // TODO remove, this demo shouldn't need to reset the theme.
 const defaultTheme = createTheme()
 
 export default function ListArtikel() {
   const { push } = useRouter()
+  const {user}: any = useThemeContext()
+
+const useAxios = makeUseAxios({
+  axios: axios.create({ baseURL: process.env.NEXT_PUBLIC_BASEURL, 
+    headers: {
+        Authorization: `Bearer ${user?.token}`,
+    } }),
+})
+  const [{ data: blogs = [], error, loading }] = useAxios<any>({
+    url: "/blog",
+  })
 
   return (
-    <ThemeProvider theme={defaultTheme}>
-      <CssBaseline />
       <Container maxWidth="xl">
         <Header />
-        <main>
+        <Box>
           <Box
             sx={{
               bgcolor: "background.paper",
@@ -33,7 +46,7 @@ export default function ListArtikel() {
             }}
           >
             <Container maxWidth="lg">
-              <Box sx={{ my: 12 }}>
+              <Box sx={{ mb: 12, textAlign: 'center' }}>
                 <Typography
                   component="h3"
                   variant="h4"
@@ -50,52 +63,76 @@ export default function ListArtikel() {
                   seputar dunia pameran. Jangan lewatkan kesempatan untuk
                   meningkatkan pengetahuan Anda tentang pameran!
                 </Typography>
+                { user?.name && <Button
+                  variant="outlined"
+                  sx={{ my: 3 }}
+                  onClick={() => push("/artikel/form")}
+                >
+                  Tambah Artikel
+                </Button>}
               </Box>
 
-              <Grid container spacing={4}>
-                {[1, 2, 3, 4, 5, 6].map((e) => (
-                  <Grid item xs={12} sm={6} md={4} key={e}>
-                    <Card
-                      sx={{
-                        height: "100%",
-                        display: "flex",
-                        flexDirection: "column",
-                      }}
-                    >
-                      <CardMedia
-                        component="div"
-                        sx={{
-                          // 16:9
-                          pt: "56.25%",
-                        }}
-                        image="https://source.unsplash.com/random?wallpapers"
-                      />
-                      <CardContent sx={{ flexGrow: 1 }}>
-                        <Typography gutterBottom variant="h5" component="h2">
-                          Heading
-                        </Typography>
-                        <Typography>
-                          This is a media card. You can use this section to
-                          describe the content.
-                        </Typography>
-                      </CardContent>
-                      <CardActions>
-                        <Button
-                          size="small"
-                          onClick={() => push("/artikel/" + e)}
+              {loading && (
+                <Typography align="center" color="text.secondary" paragraph>
+                  Loading...
+                </Typography>
+              )}
+              {((error || !blogs.length) && !loading && (
+                <Typography align="center" color="text.secondary" paragraph>
+                  Data Empty
+                </Typography>
+              )) || (
+                <Container maxWidth="lg">
+                  <Grid container spacing={4}>
+                    {blogs.map((e: any) => (
+                      <Grid item xs={12} sm={6} md={4} key={e._id}>
+                        <Card
+                          sx={{
+                            height: "100%",
+                            display: "flex",
+                            flexDirection: "column",
+                          }}
                         >
-                          View
-                        </Button>
-                      </CardActions>
-                    </Card>
+                          <CardMedia
+                            component="div"
+                            sx={{
+                              // 16:9
+                              pt: "56.25%",
+                            }}
+                            image={
+                              e.photos.length
+                                ? e.photos[0]
+                                : "https://source.unsplash.com/random?wallpapers"
+                            }
+                          />
+                          <CardContent sx={{ flexGrow: 1 }}>
+                            <Typography
+                              gutterBottom
+                              variant="h5"
+                              component="h2"
+                            >
+                              {e.title}
+                            </Typography>
+                            <Typography>{e.description}</Typography>
+                          </CardContent>
+                          <CardActions>
+                            <Button
+                              size="small"
+                              onClick={() => push("/artikel/" + e._id)}
+                            >
+                              View
+                            </Button>
+                          </CardActions>
+                        </Card>
+                      </Grid>
+                    ))}
                   </Grid>
-                ))}
-              </Grid>
+                </Container>
+              )}
             </Container>
           </Box>
-        </main>
-      </Container>
+        </Box>
       <Footer />
-    </ThemeProvider>
+      </Container>
   )
 }

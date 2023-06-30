@@ -62,8 +62,6 @@ export default function About() {
   }
 
   return (
-    <ThemeProvider theme={defaultTheme}>
-      <CssBaseline />
       <Container maxWidth="xl">
         <Header />
 
@@ -71,7 +69,7 @@ export default function About() {
           Go back
         </Button>
 
-        <Grid lg={12} sx={{ backgroundColor: "#eee", py: 8 }}>
+        <Box sx={{ backgroundColor: "#eee", py: 8 }}>
           <Typography
             component="h3"
             variant="h4"
@@ -79,67 +77,62 @@ export default function About() {
             color="text.primary"
             gutterBottom
           >
-            About Us
+            Tentang Kami
           </Typography>
-        </Grid>
+        </Box>
 
         <Grid container>
-          <Grid item xs={12} md={6} lg={4}>
+          <Grid item md={12} lg={4}>
             <Grid container spacing={3}>
               <Grid item xs={12}>
                 <Card>
                   <CardContent>
                     <Typography variant="h6" sx={{ mt: 2 }}>
-                      Contact Us
+                      Hubungi Kami
                     </Typography>
                     <Divider
                       sx={{ mt: (theme) => `${theme.spacing(4)} !important` }}
                     />
                     <Box sx={{ pt: 5, pb: 1 }}>
                       <Box component="form" noValidate onSubmit={handleSubmit}>
-                        <Grid container spacing={3}>
-                          <Grid item lg={12}>
-                            <TextField
-                              required
-                              fullWidth
-                              name="name"
-                              label="Name"
-                              placeholder="Your name"
-                            />
-                          </Grid>
-                          <Grid item lg={12}>
-                            <TextField
-                              required
-                              fullWidth
-                              name="email"
-                              type="email"
-                              label="Email"
-                              placeholder="abc@gmail.com"
-                            />
-                          </Grid>
-                          <Grid item lg={12}>
-                            <TextField
-                              required
-                              fullWidth
-                              name="phone"
-                              label="Phone"
-                              placeholder="+62"
-                            />
-                          </Grid>
-                          <Grid item lg={12}>
-                            <TextField
-                              required
-                              name="message"
-                              rows={4}
-                              multiline
-                              fullWidth
-                              variant="filled"
-                              label="Message"
-                              placeholder="Message"
-                              id="textarea-outlined-static"
-                            />
-                          </Grid>
-                        </Grid>
+                        <TextField
+                          margin="normal"
+                          autoFocus
+                          required
+                          fullWidth
+                          name="name"
+                          label="Name"
+                          placeholder="Your name"
+                        />
+                        <TextField
+                          margin="normal"
+                          required
+                          fullWidth
+                          name="email"
+                          type="email"
+                          label="Email"
+                          placeholder="abc@gmail.com"
+                        />
+                        <TextField
+                          margin="normal"
+                          required
+                          fullWidth
+                          name="phone"
+                          label="Phone"
+                          placeholder="+62"
+                        />
+                        <TextField
+                          margin="normal"
+                          required
+                          name="message"
+                          rows={4}
+                          multiline
+                          fullWidth
+                          variant="filled"
+                          label="Message"
+                          placeholder="Message"
+                          id="textarea-outlined-static"
+                        />
 
                         <DialogActions
                           sx={{
@@ -162,7 +155,7 @@ export default function About() {
               </Grid>
             </Grid>
           </Grid>
-          <Grid item xs={12} md={7} lg={8}>
+          <Grid item md={12} lg={8}>
             <Box sx={{ mb: 3, mt: 3 }}>
               <Typography
                 component="h3"
@@ -171,26 +164,26 @@ export default function About() {
                 color="text.primary"
                 gutterBottom
               >
-                About Us Antaratma!
+                Tentang Antaratma!
               </Typography>
             </Box>
 
             <Box sx={{ px: 6, mt: 3 }}>
-              <Typography align="center" color="text.secondary" paragraph>
+              <Typography align="left" color="text.secondary" paragraph>
                 Antaratma adalah sebuah platform inovatif yang bertujuan untuk
                 memberikan kemudahan dalam memesan tiket pameran baik secara
                 online maupun offline. Kami berkomitmen untuk menyediakan akses
                 yang cepat dan praktis bagi pengguna untuk menjelajahi berbagai
                 pameran menarik yang tersedia.
               </Typography>
-              <Typography align="center" color="text.secondary" paragraph>
+              <Typography align="left" color="text.secondary" paragraph>
                 Dalam upaya kami untuk menjadi solusi utama bagi para pecinta
                 seni dan karya kreatif, kami senantiasa menggunakan teknologi
                 terkini. Melalui Antaratma, kami ingin memfasilitasi komunikasi
                 langsung antara pembeli dengan penyelenggara pameran, sehingga
                 menyediakan pengalaman yang tak terbatas oleh batasan geografis.
               </Typography>
-              <Typography align="center" color="text.secondary" paragraph>
+              <Typography align="left" color="text.secondary" paragraph>
                 Visi kami adalah untuk menjembatani kesenjangan fisik dan
                 memperluas jangkauan pameran seni di seluruh dunia. Kami
                 memahami betapa kuatnya daya tarik seni dan kreativitas dalam
@@ -199,14 +192,14 @@ export default function About() {
                 memungkinkan siapa pun untuk dengan mudah mengakses
                 pameran-pameran menarik tanpa harus melakukan perjalanan jauh.
               </Typography>
-              <Typography align="center" color="text.secondary" paragraph>
+              <Typography align="left" color="text.secondary" paragraph>
                 Tim kami terdiri dari individu yang penuh semangat dalam
                 menggabungkan seni dan teknologi. Kami bekerja sama dengan
                 penyelenggara pameran terpercaya dan berpengalaman untuk
                 memastikan pengalaman memesan tiket yang aman, nyaman, dan
                 terpercaya bagi pengguna kami.
               </Typography>
-              <Typography align="center" color="text.secondary" paragraph>
+              <Typography align="left" color="text.secondary" paragraph>
                 Ketika menggunakan Antaratma, Anda akan dapat menikmati
                 kemudahan menjelajahi berbagai pameran yang sedang berlangsung.
                 Informasi detail tentang setiap pameran tersedia untuk Anda,
@@ -215,13 +208,13 @@ export default function About() {
                 fleksibel agar Anda dapat menikmati pameran favorit dengan
                 tenang.
               </Typography>
-              <Typography align="center" color="text.secondary" paragraph>
+              <Typography align="left" color="text.secondary" paragraph>
                 Kami tunduk pada prinsip memberikan pengalaman terbaik bagi
                 pengguna kami dan terus berupaya meningkatkan platform ini. Kami
                 sangat mengapresiasi umpan balik dari pengguna kami dan siap
                 membantu dengan pertanyaan atau kebutuhan apa pun.
               </Typography>
-              <Typography align="center" color="text.secondary" paragraph>
+              <Typography align="left" color="text.secondary" paragraph>
                 Terima kasih atas kepercayaan Anda dalam menggunakan Antaratma
                 sebagai layanan utama Anda untuk memesan tiket pameran online
                 maupun offline. Mari kita bersama-sama menjelajahi dunia seni
@@ -235,8 +228,7 @@ export default function About() {
             </Box>
           </Grid>
         </Grid>
-      </Container>
       <Footer />
-    </ThemeProvider>
+      </Container>
   )
 }

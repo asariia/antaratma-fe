@@ -1,3 +1,4 @@
+'use client';
 import * as React from "react"
 import Toolbar from "@mui/material/Toolbar"
 import Button from "@mui/material/Button"
@@ -11,30 +12,17 @@ import {
   Menu,
   MenuItem,
   Divider,
+  Box,
   ListItemIcon,
 } from "@mui/material"
-import { useRouter } from "next/navigation"
+import { useRouter, usePathname } from "next/navigation"
 import { sections, title } from "@/tools/helper"
-import { UserContext } from "@/app/UserContext"
-import { config } from "@/tools/helper"
-import axios from "axios"
-import { makeUseAxios } from "axios-hooks"
-
-const useAxios = makeUseAxios({
-  axios: axios.create({ baseURL: process.env.NEXT_PUBLIC_BASEURL, ...config }),
-})
+import { useThemeContext } from "@/app/UserContext"
 
 export default function Header() {
   const { push } = useRouter()
-  const { user = { name: "" }, setUser } = React.useContext(UserContext)
-
-  if (user.name) {
-    const [{ data: userData = {}, error, loading }] = useAxios<any>({
-      url: "/profile",
-    })
-    if (!loading && !error) setUser(userData)
-  }
-
+  const pathname = usePathname()
+  const { user }: any = useThemeContext()
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
   const open = Boolean(anchorEl)
 
@@ -75,21 +63,29 @@ export default function Header() {
         >
           {title}
         </Typography>
-        <div>
-          {sections.map((section) => (
-            <Link
-              color="inherit"
-              noWrap
-              key={section.title}
-              variant="body2"
-              href={section.url}
-              sx={{ p: 1, flexShrink: 0 }}
-            >
-              {section.title}
-            </Link>
-          ))}
+        <Box>
+          {sections.map((section) => {
+            const isActive = pathname.startsWith(section.url)
+            return (
+              <Link
+                color="inherit"
+                noWrap
+                key={section.title}
+                variant="body2"
+                href={section.url}
+                sx={{
+                  p: 1,
+                  flexShrink: 0,
+                  textDecoration:
+                    isActive && section.url !== "/" ? "underline" : "none",
+                }}
+              >
+                {section.title}
+              </Link>
+            )
+          })}
 
-          {(user.name && (
+          {(user?.name && (
             <Tooltip title="Account settings">
               <IconButton
                 onClick={handleClick}
@@ -103,7 +99,7 @@ export default function Header() {
                   {user.name
                     .split(" ")
                     .slice(0, 2)
-                    .map((n) => n[0])
+                    .map((n: any) => n[0])
                     .join("")
                     .toUpperCase()}
                 </Avatar>
@@ -119,9 +115,9 @@ export default function Header() {
               Sign In
             </Button>
           )}
-        </div>
+        </Box>
       </Toolbar>
-      {user.name && (
+      {user?.name && (
         <Menu
           anchorEl={anchorEl}
           id="account-menu"

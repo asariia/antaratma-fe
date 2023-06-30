@@ -66,8 +66,7 @@ export default function DetailPameran() {
   }, [srcNum])
 
   return (
-    <ThemeProvider theme={defaultTheme}>
-      <CssBaseline />
+    <>
       <Container maxWidth="xl">
         <Header />
 
@@ -120,8 +119,8 @@ export default function DetailPameran() {
             archives={sidebar.archives}
           />
         </Grid>
-      </Container>
       <Footer />
-    </ThemeProvider>
+      </Container>
+    </>
   )
 }

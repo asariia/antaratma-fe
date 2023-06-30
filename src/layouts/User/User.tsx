@@ -59,8 +59,6 @@ export default function DetailPameran() {
 
   if (data) {
     return (
-      <ThemeProvider theme={defaultTheme}>
-        <CssBaseline />
         <Container maxWidth="xl">
           <Header />
 
@@ -357,9 +355,8 @@ export default function DetailPameran() {
               </Grid>
             </Grid>
           </Grid>
-        </Container>
         <Footer />
-      </ThemeProvider>
+        </Container>
     )
   } else {
     return null

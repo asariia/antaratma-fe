@@ -15,14 +15,14 @@ import Typography from "@mui/material/Typography"
 import { createTheme, ThemeProvider } from "@mui/material/styles"
 import Copyright from "@/components/CopyRight/Copyright"
 import { useRouter } from "next/navigation"
-import { UserContext } from "@/app/UserContext"
+import { useThemeContext } from "@/app/UserContext"
 
 // TODO remove, this demo shouldn't need to reset the theme.
 const defaultTheme = createTheme()
 
 export default function SignInSide() {
   const { push } = useRouter()
-  const { user } = React.useContext(UserContext)
+  const {user}: any = useThemeContext()
   if (user)push("/")
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -51,7 +51,6 @@ export default function SignInSide() {
   }
 
   return (
-    <ThemeProvider theme={defaultTheme}>
       <Grid container component="main" sx={{ height: "100vh" }}>
         <CssBaseline />
         <Grid
@@ -161,6 +160,5 @@ export default function SignInSide() {
           </Box>
         </Grid>
       </Grid>
-    </ThemeProvider>
   )
 }

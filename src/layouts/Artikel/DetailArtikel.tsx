@@ -20,8 +20,6 @@ export default function DetailArtikel() {
   const { push } = useRouter()
 
   return (
-    <ThemeProvider theme={defaultTheme}>
-      <CssBaseline />
       <Container maxWidth="xl">
         <Header />
 
@@ -41,8 +39,7 @@ export default function DetailArtikel() {
             archives={sidebar.archives}
           />
         </Grid>
-      </Container>
       <Footer />
-    </ThemeProvider>
+      </Container>
   )
 }

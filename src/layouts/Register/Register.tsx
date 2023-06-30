@@ -31,7 +31,6 @@ export default function About() {
   };
 
   return (
-    <ThemeProvider theme={defaultTheme}>
       <Grid container component="main" sx={{ height: '100vh' }}>
         <CssBaseline />
         <Grid
@@ -120,6 +119,5 @@ export default function About() {
           </Box>
         </Grid>
       </Grid>
-    </ThemeProvider>
   );
 }

@@ -23,11 +23,8 @@ import { descTrim } from "@/tools/helper"
 import { useRouter } from "next/navigation"
 import axios from "axios"
 import { makeUseAxios } from "axios-hooks"
-import { config } from "@/tools/helper"
+import { useThemeContext } from "@/app/UserContext"
 
-const useAxios = makeUseAxios({
-  axios: axios.create({ baseURL: process.env.NEXT_PUBLIC_BASEURL, ...config }),
-})
 
 const sectionsOffline = [
   { title: "The Truth Inside You", url: "#" },
@@ -62,14 +59,19 @@ const defaultTheme = createTheme()
 
 export default function Blog() {
   const { push } = useRouter()
+  const {user}: any = useThemeContext()
 
+const useAxios = makeUseAxios({
+  axios: axios.create({ baseURL: process.env.NEXT_PUBLIC_BASEURL, 
+    headers: {
+        Authorization: `Bearer ${user?.token}`,
+    }, }),
+})
   const [{ data: ListData = [], error, loading }] = useAxios<any>({
     url: "/api/places",
   })
 
   return (
-    <ThemeProvider theme={defaultTheme}>
-      <CssBaseline />
       <Container maxWidth="xl">
         <Header />
         <main>
@@ -267,8 +269,7 @@ export default function Blog() {
             </Container>
           </Box>
         </main>
-      </Container>
       <Footer />
-    </ThemeProvider>
+      </Container>
   )
 }
