@@ -37,14 +37,14 @@ const ACLPage = () => {
   })
   const [{ data: blogs = [], error, loading }, executeBlogs] = useAxios<any>(
     {
-      url: '/blog'
+      url: '/fest'
     },
     { manual: true }
   )
 
   const [{ data: blog = [], error: errblog, loading: blogLoading }, executeBlog] = useAxios<any>(
     {
-      url: '/blog/' + router.query.id
+      url: '/fest/' + router.query.id
     },
     { manual: true }
   )
