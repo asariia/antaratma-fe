@@ -58,6 +58,7 @@ import 'src/iconify-bundle/icons-bundle-react'
 
 // ** Global css styles
 import '../../styles/globals.css'
+import "react-datepicker/dist/react-datepicker.css";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";

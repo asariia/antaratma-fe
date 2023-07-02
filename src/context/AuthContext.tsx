@@ -39,7 +39,7 @@ const AuthProvider = ({ children }: Props) => {
 
   useEffect(() => {
     const initAuth = async (): Promise<void> => {
-      const storedToken = window.localStorage.getItem(authConfig.storageTokenKeyName)!
+      const storedToken = user?.token || window.localStorage.getItem(authConfig.storageTokenKeyName)!
       if (storedToken) {
         setLoading(true)
         await axios
@@ -85,7 +85,7 @@ const AuthProvider = ({ children }: Props) => {
         const returnUrl = router.query.returnUrl
 
         setUser({ ...response.data })
-        params.rememberMe ? window.localStorage.setItem('userData', JSON.stringify(response.data)) : null
+        window.localStorage.setItem('userData', JSON.stringify(response.data))
 
         const redirectURL = returnUrl && returnUrl !== '/' ? returnUrl : '/'
 

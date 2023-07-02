@@ -11,26 +11,62 @@ import Grid from '@mui/material/Grid'
 import Card from '@mui/material/Card'
 import Typography from '@mui/material/Typography'
 import CardContent from '@mui/material/CardContent'
-import { Button, CardActions, CardMedia } from '@mui/material'
+import { Button, CardActions, CardMedia, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, FormControl, FormControlLabel, FormHelperText, FormLabel, MenuItem, Radio, RadioGroup, Select, TextField } from '@mui/material'
 import { Box } from '@mui/system'
 import { useAuth } from 'src/hooks/useAuth'
 import { useRouter } from 'next/router'
 import { makeUseAxios } from 'axios-hooks'
 import View360, { EquirectProjection } from '@egjs/react-view360'
+import * as yup from 'yup'
 
-// ** Third Party Components
+// ** Third Party Imports
+import setHours from 'date-fns/setHours'
+import setMinutes from 'date-fns/setMinutes'
+import DatePicker from 'react-datepicker'
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination, Navigation } from "swiper";
+import { yupResolver } from '@hookform/resolvers/yup'
+import { useForm, Controller } from 'react-hook-form'
+import toast from 'react-hot-toast'
+import addDays from 'date-fns/addDays'
 
 // import { clsx } from 'clsx';
 // import { PanoViewer, SpinViewer, PROJECTION_TYPE } from "@egjs/react-view360";
+// ** Custom Component Imports
 
+
+const schema = yup.object().shape({
+  bookingAt: yup.date(),
+  name: yup.string().required(),
+  age: yup.string().required(),
+  gender: yup.string().required(),
+  citizen: yup.string().required(),
+  city: yup.string().required(),
+  email: yup.string().email().required(),
+  phone: yup.string().required(),
+})
+
+const defaultValues = {
+  bookingAt: setMinutes(new Date(), 0),
+  name: '',
+  age: '< 18',
+  gender: 'female',
+  citizen: 'WNI',
+  city: '',
+  email: '',
+  phone: ''
+}
 
 const ACLPage = () => {
   // ** Hooks
   const router = useRouter()
   const { user } = useAuth()
-  const [srcNum, setSrc] = useState(0)
+  const [srcNum, setSrc] = useState<number>(0)
+  const [booking, setBooking] = useState<any>({})
+  const [open, setOpen] = useState<boolean>(false)
+  const handleClickOpen = () => setOpen(true)
+  const handleClose = () => setOpen(false)
+
   if (!router.isReady) return
   const useAxios = makeUseAxios({
     axios: axios.create({
@@ -58,7 +94,18 @@ const ACLPage = () => {
   useEffect(() => {
     executeFests()
     executeFest()
+
+    if (user?.role === 'client') checkBooking()
+
   }, [])
+
+  const checkBooking = () => axios.get('/bookings', {
+    headers: {
+      Authorization: `Bearer ${user?.token}`
+    }
+  }).then((response) => {
+    setBooking(response.data.find((e: any) => e.place._id === router.query.id))
+  });
 
   const projection = useMemo(
     () =>
@@ -77,6 +124,37 @@ const ACLPage = () => {
     const nextRoom = srcNum > 0 ? srcNum - 1 : fest.photos360.length - 1
     setSrc(nextRoom)
   }, [srcNum, fest.photos360])
+
+  const {
+    control,
+    handleSubmit,
+    formState: { errors }
+  } = useForm({
+    defaultValues,
+    mode: 'onBlur',
+    resolver: yupResolver(schema)
+  })
+
+  const onSubmit = (data: any) => {
+    handleClose()
+    const myPromise = new Promise((resolve, reject) => {
+      axios.post('/bookings', { ...data, price: fest.price, place: router.query.id }, {
+        headers: {
+          Authorization: `Bearer ${user?.token}`
+        }
+      }).then((response) => {
+        checkBooking()
+        resolve(response)
+      }).catch((err) => reject(err))
+    })
+
+    return toast.promise(myPromise, {
+      loading: 'Loading',
+      success: 'Berhasil booking pameran!',
+      error: 'Error when fetching'
+    })
+  }
+
 
   return (
     <Grid container spacing={6}>
@@ -104,7 +182,7 @@ const ACLPage = () => {
               </Typography>
             </Box>
 
-            {fest?.photos360?.length &&
+            {!!fest?.photos360?.length &&
                 <Box
                   sx={{
                     width: '100%',
@@ -176,6 +254,253 @@ const ACLPage = () => {
                 {fest.description}
               </Typography>
             </Box>
+
+            <Box sx={{ px: 6, mt: 3 }}>
+              <Typography align='left' color='text.primary' paragraph>
+                Alamat: {fest.address}
+              </Typography>
+            </Box>
+
+            {user?.role === 'client' ?
+              !booking?.name ? (
+                <Box sx={{ px: 6, mt: 3 }}>
+                  <Typography align='left' color='text.primary' paragraph>
+                    Pesan Tiket :
+                  </Typography>
+                  <Button variant='outlined' onClick={handleClickOpen}>
+                    Booking sekarang
+                  </Button>
+                </Box>
+
+              ) : (
+                <>
+                  <Box sx={{ px: 6, mt: 3 }}>
+                    <Typography component='h3' variant='h4' align='center' color='text.primary' gutterBottom>
+                      Booking Berhasil
+                    </Typography>
+                  </Box>
+                  <Box sx={{ px: 6, mt: 3 }}>
+                    <Typography align='left' color='text.primary' paragraph>
+                      Nama Lengkap / Fullname: {booking.name}
+                    </Typography>
+                  </Box>
+                  <Box sx={{ px: 6, mt: 3 }}>
+                    <Typography align='left' color='text.primary' paragraph>
+                      Umur / Age: {booking.age} Tahun
+                    </Typography>
+                  </Box>
+                  <Box sx={{ px: 6, mt: 3 }}>
+                    <Typography align='left' color='text.primary' paragraph>
+                      Jenis Kelamin / Gender: {booking.gender}
+                    </Typography>
+                  </Box>
+                  <Box sx={{ px: 6, mt: 3 }}>
+                    <Typography align='left' color='text.primary' paragraph>
+                      Kewarganegaraan / Citizen: {booking.citizen}
+                    </Typography>
+                  </Box>
+                  <Box sx={{ px: 6, mt: 3 }}>
+                    <Typography align='left' color='text.primary' paragraph>
+                      Kota / City: {booking.city}
+                    </Typography>
+                  </Box>
+                  <Box sx={{ px: 6, mt: 3 }}>
+                    <Typography align='left' color='text.primary' paragraph>
+                      Email: {booking.email}
+                    </Typography>
+                  </Box>
+                  <Box sx={{ px: 6, mt: 3 }}>
+                    <Typography align='left' color='text.primary' paragraph>
+                      Kontak Telepon / Phone Number: {booking.phone}
+                    </Typography>
+                  </Box>
+                </>
+              ) : user?.role === 'guest' ? (
+                <Button variant='outlined' onClick={() => router.replace('/login')}>
+                  Sign In
+                </Button>
+              ) : null
+            }
+
+
+
+            <Dialog open={open} onClose={handleClose} aria-labelledby='form-dialog-title'>
+              <DialogTitle id='form-dialog-title'>Booking Tiket {fest.title}</DialogTitle>
+              <form noValidate autoComplete='off' onSubmit={handleSubmit(onSubmit)}>
+                <DialogContent>
+                  <DialogContentText sx={{ mb: 8 }} color='text.primary'>
+                    Alamat: {fest.address}
+                  </DialogContentText>
+
+                  <FormControl fullWidth sx={{ mb: 4 }}>
+                    <FormLabel component='legend'>Tanggal Kunjungan / Visit Date</FormLabel>
+                    <Controller
+                      name='bookingAt'
+                      control={control}
+                      render={({ field: { value, onChange, onBlur } }) => (
+                        <DatePicker
+                          showTimeSelect
+                          selected={value}
+                          onBlur={onBlur}
+                          id='specific-time'
+                          dateFormat='MM/dd/yyyy h:mm aa'
+                          onChange={onChange}
+                          minDate={new Date()}
+                          maxDate={addDays(new Date(), 5)}
+                          minTime={setHours(setMinutes(new Date(), 0), 8)}
+                          maxTime={setHours(setMinutes(new Date(), 30), 17)}
+                          customInput={
+                            <TextField
+                              error={Boolean(errors.bookingAt)}
+                              placeholder='date'
+                            />
+                          }
+                        />
+                      )}
+                    />
+                    {errors.bookingAt && <FormHelperText sx={{ color: 'error.main' }}>{errors.bookingAt.message}</FormHelperText>}
+                  </FormControl>
+                  <FormControl fullWidth sx={{ mb: 4 }}>
+                    <FormLabel component='legend'>Nama Lengkap / Fullname</FormLabel>
+                    <Controller
+                      name='name'
+                      control={control}
+                      rules={{ required: true }}
+                      render={({ field: { value, onChange, onBlur } }) => (
+                        <TextField
+                          value={value}
+                          onBlur={onBlur}
+                          onChange={onChange}
+                          error={Boolean(errors.email)}
+                          placeholder='Nama Lengkap / Fullname'
+                        />
+                      )}
+                    />
+                    {errors.name && <FormHelperText sx={{ color: 'error.main' }}>{errors.name.message}</FormHelperText>}
+                  </FormControl>
+                  <FormControl fullWidth sx={{ mb: 4 }}>
+                    <FormLabel component='legend'>Umur / Age</FormLabel>
+                    <Controller
+                      name='age'
+                      control={control}
+                      rules={{ required: true }}
+                      render={({ field: { value, onChange, onBlur } }) => (
+                        <Select
+                          value={value}
+                          onBlur={onBlur}
+                          error={Boolean(errors.age)}
+                          onChange={onChange}
+                          placeholder='Umur / Age'
+                        >
+                          <MenuItem value={'< 18'}>{`< 18 Tahun`}</MenuItem>
+                          <MenuItem value={'18 - 24'}>{`18 - 24 Tahun`}</MenuItem>
+                          <MenuItem value={'24 >'}>{`24 > Tahun`}</MenuItem>
+                        </Select>
+                      )}
+                    />
+                    {errors.age && <FormHelperText sx={{ color: 'error.main' }}>{errors.age.message}</FormHelperText>}
+                  </FormControl>
+                  <FormControl fullWidth sx={{ mb: 4 }}>
+                    <FormLabel component='legend'>Jenis Kelamin / Gender</FormLabel>
+                    <Controller
+                      name='gender'
+                      control={control}
+                      rules={{ required: true }}
+                      render={({ field: { value, onChange, onBlur } }) => (
+                        <RadioGroup
+                          row
+                          value={value}
+                          onChange={onChange}
+                          onBlur={onBlur}
+                        >
+                          <FormControlLabel value='female' control={<Radio />} label='Perempuan / Female' />
+                          <FormControlLabel value='male' control={<Radio />} label='Laki-laki / Male' />
+                        </RadioGroup>
+                      )}
+                    />
+                    {errors.gender && <FormHelperText sx={{ color: 'error.main' }}>{errors.gender.message}</FormHelperText>}
+                  </FormControl>
+                  <FormControl fullWidth sx={{ mb: 4 }}>
+                    <FormLabel component='legend'>Kewarganegaraan / Citizen</FormLabel>
+                    <Controller
+                      name='citizen'
+                      control={control}
+                      rules={{ required: true }}
+                      render={({ field: { value, onChange, onBlur } }) => (
+                        <RadioGroup
+                          row
+                          value={value}
+                          onChange={onChange}
+                          onBlur={onBlur}
+                        >
+                          <FormControlLabel value='WNI' control={<Radio />} label='WNI / Indonesia Citizen' />
+                          <FormControlLabel value='WNA' control={<Radio />} label='WNA / Foreign Citizen' />
+                        </RadioGroup>
+                      )}
+                    />
+                    {errors.citizen && <FormHelperText sx={{ color: 'error.main' }}>{errors.citizen.message}</FormHelperText>}
+                  </FormControl>
+                  <FormControl fullWidth sx={{ mb: 4 }}>
+                    <FormLabel component='legend'>Kota / City</FormLabel>
+                    <Controller
+                      name='city'
+                      control={control}
+                      rules={{ required: true }}
+                      render={({ field: { value, onChange, onBlur } }) => (
+                        <TextField
+                          value={value}
+                          onBlur={onBlur}
+                          onChange={onChange}
+                          error={Boolean(errors.city)}
+                          placeholder='Kota / City'
+                        />
+                      )}
+                    />
+                    {errors.city && <FormHelperText sx={{ color: 'error.main' }}>{errors.city.message}</FormHelperText>}
+                  </FormControl>
+                  <FormControl fullWidth sx={{ mb: 4 }}>
+                    <FormLabel component='legend'>Email</FormLabel>
+                    <Controller
+                      name='email'
+                      control={control}
+                      rules={{ required: true }}
+                      render={({ field: { value, onChange, onBlur } }) => (
+                        <TextField
+                          value={value}
+                          onBlur={onBlur}
+                          onChange={onChange}
+                          error={Boolean(errors.email)}
+                          placeholder='your@mail.com'
+                        />
+                      )}
+                    />
+                    {errors.email && <FormHelperText sx={{ color: 'error.main' }}>{errors.email.message}</FormHelperText>}
+                  </FormControl>
+                  <FormControl fullWidth sx={{ mb: 4 }}>
+                    <FormLabel component='legend'>Kontak Telepon / Phone Number</FormLabel>
+                    <Controller
+                      name='phone'
+                      control={control}
+                      rules={{ required: true }}
+                      render={({ field: { value, onChange, onBlur } }) => (
+                        <TextField
+                          value={value}
+                          onBlur={onBlur}
+                          onChange={onChange}
+                          error={Boolean(errors.phone)}
+                          placeholder='+62 '
+                        />
+                      )}
+                    />
+                    {errors.phone && <FormHelperText sx={{ color: 'error.main' }}>{errors.phone.message}</FormHelperText>}
+                  </FormControl>
+                </DialogContent>
+                <DialogActions className='dialog-actions-dense'>
+                  <Button onClick={handleClose} >Kembali / Back</Button>
+                  <Button type='submit' variant='contained'>Kirim / Submit</Button>
+                </DialogActions>
+              </form>
+            </Dialog>
           </Grid>
           )}
       </Grid>
