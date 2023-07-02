@@ -92,7 +92,7 @@ const ACLPage = () => {
                       </CardContent>
                       <CardActions>
                         <Button size='small' onClick={() => router.replace('/pameran/' + e._id)}>
-                          View
+                            {e.address}
                         </Button>
                         {/* <Button size="small">Edit</Button> */}
                       </CardActions>
@@ -144,7 +144,7 @@ const ACLPage = () => {
                     </CardContent>
                     <CardActions>
                       <Button size='small' onClick={() => router.replace('/pameran/' + e._id)}>
-                        View
+                          {e.address}
                       </Button>
                     </CardActions>
                     </Card>
