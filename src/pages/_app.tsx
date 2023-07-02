@@ -58,6 +58,9 @@ import 'src/iconify-bundle/icons-bundle-react'
 
 // ** Global css styles
 import '../../styles/globals.css'
+import "swiper/css";
+import "swiper/css/pagination";
+import "swiper/css/navigation";
 
 // import '@egjs/react-view360/css/view360.min.css'
 

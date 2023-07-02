@@ -18,6 +18,10 @@ import { useRouter } from 'next/router'
 import { makeUseAxios } from 'axios-hooks'
 import View360, { EquirectProjection } from '@egjs/react-view360'
 
+// ** Third Party Components
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Autoplay, Pagination, Navigation } from "swiper";
+
 // import { clsx } from 'clsx';
 // import { PanoViewer, SpinViewer, PROJECTION_TYPE } from "@egjs/react-view360";
 
@@ -26,6 +30,7 @@ const ACLPage = () => {
   // ** Hooks
   const router = useRouter()
   const { user } = useAuth()
+  const [srcNum, setSrc] = useState(0)
   if (!router.isReady) return
   const useAxios = makeUseAxios({
     axios: axios.create({
@@ -35,84 +40,43 @@ const ACLPage = () => {
       }
     })
   })
-  const [{ data: blogs = [], error, loading }, executeBlogs] = useAxios<any>(
+
+  const [{ data: fests = [], error, loading }, executeFests] = useAxios<any>(
     {
-      url: '/fest'
+      url: '/fests'
     },
     { manual: true }
   )
 
-  const [{ data: blog = [], error: errblog, loading: blogLoading }, executeBlog] = useAxios<any>(
+  const [{ data: fest = {}, error: errfest, loading: festLoading }, executeFest] = useAxios<any>(
     {
       url: '/fest/' + router.query.id
     },
     { manual: true }
   )
+
   useEffect(() => {
-    executeBlogs()
-
-    executeBlog()
+    executeFests()
+    executeFest()
   }, [])
-
-  // const hotspots = [
-  //   {
-  //     type: "search",
-  //     yaw: 232,
-  //     pitch: -14,
-  //     book: 1
-  //   },
-  //   {
-  //     type: "search",
-  //     yaw: 133,
-  //     pitch: -18,
-  //     book: 2
-  //   },
-  //   {
-  //     type: "search",
-  //     yaw: 186,
-  //     pitch: -17,
-  //     book: 3
-  //   },
-  //   {
-  //     type: "link",
-  //     yaw: 94,
-  //     pitch: -8,
-  //     text: "Economy\nCulture"
-  //   }
-  // ]
-
-  const [srcNum, setSrc] = useState(0)
-
-  const listSrcTemp: any = [
-    'https://vps.chipkoding.tech/upload/compress/2.webp',
-    'https://vps.chipkoding.tech/upload/compress/3.webp',
-    'https://vps.chipkoding.tech/upload/compress/4.webp',
-    'https://vps.chipkoding.tech/upload/compress/5.webp',
-    'https://vps.chipkoding.tech/upload/compress/6.webp',
-    'https://vps.chipkoding.tech/upload/compress/7.webp',
-    'https://vps.chipkoding.tech/upload/compress/8.webp',
-    'https://vps.chipkoding.tech/upload/compress/9.webp',
-    'https://vps.chipkoding.tech/upload/compress/10.webp',
-    'https://vps.chipkoding.tech/upload/compress/11.webp'
-  ]
 
   const projection = useMemo(
     () =>
       new EquirectProjection({
-        src: listSrcTemp[srcNum]
+        src: fest.photos360?.[srcNum] || ''
       }),
-    [srcNum]
+    [srcNum, fest.photos360]
   )
 
   const nextProjection = useCallback(() => {
-    const nextRoom = srcNum < listSrcTemp.length - 1 ? srcNum + 1 : 0
+    const nextRoom = srcNum < fest.photos360.length - 1 ? srcNum + 1 : 0
     setSrc(nextRoom)
-  }, [srcNum])
+  }, [srcNum, fest.photos360])
 
   const backProjection = useCallback(() => {
-    const nextRoom = srcNum > 0 ? srcNum - 1 : listSrcTemp.length - 1
+    const nextRoom = srcNum > 0 ? srcNum - 1 : fest.photos360.length - 1
     setSrc(nextRoom)
-  }, [srcNum])
+  }, [srcNum, fest.photos360])
 
   return (
     <Grid container spacing={6}>
@@ -123,24 +87,24 @@ const ACLPage = () => {
       </Grid>
 
       <Grid item lg={12} spacing={4}>
-        {blogLoading && (
+        {festLoading && (
           <Typography align='center' color='text.secondary' paragraph>
             Loading...
           </Typography>
         )}
-        {((!blog.title || errblog) && !blogLoading && (
+        {((!fest.title || errfest) && !festLoading && (
           <Typography align='center' color='text.secondary' paragraph>
             Data Empty
           </Typography>
         )) || (
-            <>
-              <Grid item lg={12}>
-                <Box sx={{ mb: 3, mt: 3 }}>
-                  <Typography component='h3' variant='h4' align='center' color='text.primary' gutterBottom>
-                    {blog.title}
-                  </Typography>
-                </Box>
+          <Grid item lg={12}>
+            <Box sx={{ mb: 3, mt: 3 }}>
+              <Typography component='h3' variant='h4' align='center' color='text.primary' gutterBottom>
+                {fest.title}
+              </Typography>
+            </Box>
 
+            {fest?.photos360?.length &&
                 <Box
                   sx={{
                     width: '100%',
@@ -167,7 +131,14 @@ const ACLPage = () => {
                         </div>
                       ))}
                     </div> */}
-                  </View360>
+                </View360>
+
+                <Box
+                  sx={{
+                    width: '100%',
+                    textAlign: 'center'
+                  }}
+                >
                   <Button variant='outlined' sx={{ my: 3 }} onClick={() => backProjection()}>
                     Back
                   </Button>
@@ -176,19 +147,41 @@ const ACLPage = () => {
                     Next
                   </Button>
                 </Box>
+              </Box>
+            }
 
-                <Box sx={{ px: 6, mt: 3 }}>
-                  <Typography align='left' color='text.secondary' paragraph>
-                    {blog.description}
-                  </Typography>
-                </Box>
-              </Grid>
-            </>
+            <Swiper
+              spaceBetween={30}
+              centeredSlides={true}
+              autoplay={{
+                delay: 2500,
+                disableOnInteraction: false,
+              }}
+              pagination={{
+                clickable: true,
+              }}
+              navigation={true}
+              modules={[Autoplay, Pagination, Navigation]}
+              className="mySwiper"
+            >
+              {fest?.photos?.map((e: string) => (
+                <SwiperSlide key={e}>
+                  <img src={e} alt={e} style={{ width: '100%' }} />
+                </SwiperSlide>
+              ))}
+            </Swiper>
+
+            <Box sx={{ px: 6, mt: 3 }}>
+              <Typography align='left' color='text.secondary' paragraph>
+                {fest.description}
+              </Typography>
+            </Box>
+          </Grid>
           )}
       </Grid>
 
       <Grid item lg={12} spacing={4}>
-        <Typography component='h3' variant='h4' align='center' color='text.primary' gutterBottom>
+        <Typography component='h3' variant='h4' align='center' sx={{ my: 12 }} color='text.primary' gutterBottom>
           Pameran Lainnya
         </Typography>
         {loading && (
@@ -196,13 +189,13 @@ const ACLPage = () => {
             Loading...
           </Typography>
         )}
-        {((!blogs.length || error) && !loading && (
+        {((!fests.length || error) && !loading && (
           <Typography align='center' color='text.secondary' paragraph>
             Data Empty
           </Typography>
         )) || (
             <Grid container spacing={4}>
-              {blogs.map((e: any) => (
+            {fests.map((e: any) => (
                 <Grid item xs={12} sm={6} md={4} key={e._id} sx={{ mb: 4 }}>
                   <Card
                     sx={{
@@ -223,7 +216,7 @@ const ACLPage = () => {
                       <Typography gutterBottom variant='h5' component='h2'>
                         {e.title}
                       </Typography>
-                      <Typography>{e.description}</Typography>
+                    <Typography>{e.simpleText}</Typography>
                     </CardContent>
                     <CardActions>
                       <Button size='small' onClick={() => router.replace('/artikel/' + e._id)}>
