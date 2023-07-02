@@ -45,6 +45,9 @@ import BlankLayout from 'src/@core/layouts/BlankLayout'
 // ** Demo Imports
 import FooterIllustrationsV2 from 'src/views/pages/auth/FooterIllustrationsV2'
 
+// import axios from 'axios'
+// import { useRouter } from 'next/router'
+
 // ** Styled Components
 const LoginIllustrationWrapper = styled(Box)<BoxProps>(({ theme }) => ({
   padding: theme.spacing(20),
@@ -105,8 +108,8 @@ const LogoImage = styled('img')(() => ({
 }))
 
 const defaultValues = {
-  password: 'admin',
-  email: 'admin@materialize.com'
+  password: '',
+  email: ''
 }
 
 interface FormData {
@@ -121,6 +124,8 @@ const LoginPage = () => {
   // ** Hooks
   const auth = useAuth()
   const theme = useTheme()
+
+  // const router = useRouter()
 
   // const bgColors = useBgColor()
   const { settings } = useSettings()

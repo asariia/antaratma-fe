@@ -9,8 +9,7 @@ import Grid from '@mui/material/Grid'
 import Card from '@mui/material/Card'
 import Typography from '@mui/material/Typography'
 import CardContent from '@mui/material/CardContent'
-import { CardMedia, CardActions, Button } from '@mui/material'
-import { Container } from '@mui/system'
+import { CardMedia, CardActions, Button, CardActionArea } from '@mui/material'
 import { useAuth } from 'src/hooks/useAuth'
 import axios from 'axios'
 import { makeUseAxios } from 'axios-hooks'
@@ -59,7 +58,7 @@ const ACLPage = () => {
           </Button>
         )}
 
-        <Typography component='h4' variant='h5' align='center' color='text.primary' gutterBottom>
+        <Typography component='h4' variant='h5' align='center' sx={{ my: 14 }} color='text.primary' gutterBottom>
           Pameran Offline
         </Typography>
 
@@ -73,11 +72,11 @@ const ACLPage = () => {
             Data Empty
           </Typography>
         )) || (
-            <Container maxWidth='lg'>
               <Grid container spacing={4}>
                 {ListOfflineData.map((e: any) => (
                   <Grid item xs={12} sm={6} md={4} key={e._id}>
-                    <Card
+                    <CardActionArea component='a' href={'/pameran/' + e._id}>
+                      <Card
                       sx={{
                         height: '100%',
                         display: 'flex',
@@ -104,14 +103,14 @@ const ACLPage = () => {
                         </Button>
                         {/* <Button size="small">Edit</Button> */}
                       </CardActions>
-                    </Card>
+                      </Card>
+                    </CardActionArea>
                   </Grid>
                 ))}
-              </Grid>
-            </Container>
+          </Grid>
           )}
 
-        <Typography component='h4' variant='h5' align='center' color='text.primary' gutterBottom>
+        <Typography component='h4' variant='h5' align='center' color='text.primary' sx={{ my: 14 }} gutterBottom>
           Pameran Online
         </Typography>
 
@@ -128,7 +127,8 @@ const ACLPage = () => {
             <Grid container spacing={4}>
               {ListOnlineData.map((e: any) => (
                 <Grid item xs={12} sm={6} md={4} key={e._id}>
-                  <Card
+                  <CardActionArea component='a' href={'/pameran/' + e._id}>
+                    <Card
                     sx={{
                       height: '100%',
                       display: 'flex',
@@ -154,7 +154,8 @@ const ACLPage = () => {
                         View
                       </Button>
                     </CardActions>
-                  </Card>
+                    </Card>
+                  </CardActionArea>
                 </Grid>
               ))}
             </Grid>

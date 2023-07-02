@@ -1,7 +1,7 @@
 // ** MUI Imports
 import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
-import { Button, Card, CardActionArea, CardActions, CardContent, CardMedia, Chip, Paper } from '@mui/material'
+import { Card, CardActionArea, CardContent, CardMedia, Chip, Paper } from '@mui/material'
 import { Box } from '@mui/system'
 import axios from 'axios'
 import { makeUseAxios } from 'axios-hooks'
@@ -216,37 +216,34 @@ const Home = () => {
           <Grid container spacing={4}>
             {ListData?.slice(0, 6)?.map((e: any) => (
               <Grid key={e._id} item xs={12} sm={6} md={4}>
-                <Card
-                  sx={{
-                    height: '100%',
-                    display: 'flex',
-                    flexDirection: 'column'
-                  }}
-                >
-                  <CardMedia
-                    component='div'
+                <CardActionArea component='a' href={'/artikel/' + e._id}>
+                  <Card
                     sx={{
-                      // 16:9
-                      pt: '56.25%'
+                      height: '100%',
+                      display: 'flex',
+                      flexDirection: 'column'
                     }}
-                    image={e?.photos?.[0] || 'https://source.unsplash.com/random?wallpapers'}
-                  />
-                  <CardContent sx={{ flexGrow: 1 }}>
-                    <Typography gutterBottom variant='h5' component='h2'>
-                      {e.title}
-                    </Typography>
-                    <Typography>{descTrim(e.description)}</Typography>
-                  </CardContent>
-                  <CardActions>
-                    <Button size='small' onClick={() => router.replace('/artikel/' + e._id)}>
-                      View
-                    </Button>
-                  </CardActions>
-                </Card>
+                  >
+                    <CardMedia
+                      component='div'
+                      sx={{
+                        // 16:9
+                        pt: '56.25%'
+                      }}
+                      image={e?.photos?.[0] || 'https://source.unsplash.com/random?wallpapers'}
+                    />
+                    <CardContent sx={{ flexGrow: 1 }}>
+                      <Typography gutterBottom variant='h5' component='h2'>
+                        {e.title}
+                      </Typography>
+                      <Typography>{descTrim(e.description)}</Typography>
+                    </CardContent>
+                  </Card>
+                </CardActionArea>
               </Grid>
             ))}
-          </Grid>
-        )}
+            </Grid>
+          )}
       </Grid>
     </Grid>
   )

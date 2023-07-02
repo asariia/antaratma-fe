@@ -22,13 +22,27 @@ const GuestGuard = (props: GuestGuardProps) => {
       return
     }
 
+    if (!(auth?.user?.role === 'guest') && !auth.user && !window.localStorage.getItem('userData')) {
+      if (!['/login', '/register'].includes(router.asPath)) auth.setUser({
+        id: 0,
+        role: 'guest',
+        password: 'guest',
+        fullName: 'guest',
+        username: 'guest',
+        email: '',
+        token: ''
+      })
+    } else {
+      // auth.setUser(window.localStorage.getItem('userData') as any)
+    }
+
     if (window.localStorage.getItem('userData')) {
       router.replace('/')
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router.route])
 
-  if (auth.loading || (!auth.loading && auth.user !== null)) {
+  if (auth.loading || (!auth.loading && !(auth?.user?.role === 'guest'))) {
     return fallback
   }
 

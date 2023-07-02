@@ -84,7 +84,7 @@ const UserDropdown = (props: Props) => {
 
   if (user?.role === 'guest')
     return (
-      <Button fullWidth color={'primary'} variant={'outlined'} onClick={handleLogout}>
+      <Button fullWidth color={'primary'} variant={'outlined'} onClick={() => router.replace('/login')}>
         {'Sign In'}
       </Button>
     )

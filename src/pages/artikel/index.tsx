@@ -12,7 +12,7 @@ import Grid from '@mui/material/Grid'
 import Card from '@mui/material/Card'
 import Typography from '@mui/material/Typography'
 import CardContent from '@mui/material/CardContent'
-import { Button, CardMedia, CardActions } from '@mui/material'
+import { Button, CardMedia, CardActions, CardActionArea } from '@mui/material'
 import { Container } from '@mui/system'
 import { useAuth } from 'src/hooks/useAuth'
 import { useRouter } from 'next/router'
@@ -71,38 +71,40 @@ const ACLPage = () => {
             <Grid container spacing={4}>
               {blogs.map((e: any) => (
                 <Grid item xs={12} sm={6} md={4} key={e._id}>
-                  <Card
-                    sx={{
-                      height: '100%',
-                      display: 'flex',
-                      flexDirection: 'column'
-                    }}
-                  >
-                    <CardMedia
-                      component='div'
+                  <CardActionArea component='a' href={'/artikel/' + e._id}>
+                    <Card
                       sx={{
-                        // 16:9
-                        pt: '56.25%'
+                        height: '100%',
+                        display: 'flex',
+                        flexDirection: 'column'
                       }}
-                      image={e.photos.length ? e.photos[0] : 'https://source.unsplash.com/random?wallpapers'}
-                    />
-                    <CardContent sx={{ flexGrow: 1 }}>
-                      <Typography gutterBottom variant='h5' component='h2'>
-                        {e.title}
-                      </Typography>
-                      <Typography>{e.description}</Typography>
-                    </CardContent>
-                    <CardActions>
-                      <Button size='small' onClick={() => router.replace('/artikel/' + e._id)}>
-                        View
-                      </Button>
-                    </CardActions>
-                  </Card>
+                    >
+                      <CardMedia
+                        component='div'
+                        sx={{
+                          // 16:9
+                          pt: '56.25%'
+                        }}
+                        image={e.photos.length ? e.photos[0] : 'https://source.unsplash.com/random?wallpapers'}
+                      />
+                      <CardContent sx={{ flexGrow: 1 }}>
+                        <Typography gutterBottom variant='h5' component='h2'>
+                          {e.title}
+                        </Typography>
+                        <Typography>{e.description}</Typography>
+                      </CardContent>
+                      <CardActions>
+                        <Button size='small' onClick={() => router.replace('/artikel/' + e._id)}>
+                          View
+                        </Button>
+                      </CardActions>
+                    </Card>
+                  </CardActionArea>
                 </Grid>
               ))}
-            </Grid>
-          </Container>
-        )}
+              </Grid>
+            </Container>
+          )}
       </Grid>
     </Grid>
   )

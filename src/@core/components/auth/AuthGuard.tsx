@@ -23,7 +23,7 @@ const AuthGuard = (props: AuthGuardProps) => {
         return
       }
 
-      if (auth.user === null && !window.localStorage.getItem('userData')) {
+      if (!(auth?.user?.role === 'guest') && !auth.user && !window.localStorage.getItem('userData')) {
         if (!['/login', '/register'].includes(router.asPath)) auth.setUser({
           id: 0,
           role: 'guest',
@@ -33,33 +33,15 @@ const AuthGuard = (props: AuthGuardProps) => {
           email: '',
           token: ''
         })
-
-
-        // if (router.asPath !== '/') {
-        //   router.replace({
-        //     pathname: '/login',
-        //     query: { returnUrl: router.asPath }
-        //   })
-        // } else {
-        //   router.replace('/login')
-        // }
+      } else {
+        // auth.setUser(window.localStorage.getItem('userData') as any)
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [router.route]
   )
 
-  if (auth.loading || auth.user === null) {
-    if (!['/login', '/register'].includes(router.asPath)) auth.setUser({
-      id: 0,
-      role: 'guest',
-      password: 'guest',
-      fullName: 'guest',
-      username: 'guest',
-      email: '',
-      token: ''
-    })
-
+  if (auth.loading && auth.user === null) {
     return fallback
   }
 
