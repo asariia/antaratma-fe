@@ -81,7 +81,7 @@ const ACLPage = () => {
   return (
     <Grid container spacing={6}>
       <Grid item md={12} lg={12}>
-        <Button variant='outlined' sx={{ my: 3 }} onClick={() => router.replace('/artikel')}>
+        <Button variant='outlined' sx={{ my: 3 }} onClick={() => router.replace('/pameran')}>
           Kembali
         </Button>
       </Grid>
@@ -220,7 +220,7 @@ const ACLPage = () => {
                     </CardContent>
                     <CardActions>
                       <Button size='small' onClick={() => router.replace('/artikel/' + e._id)}>
-                        View
+                      Pameran {e.online ? 'online' : 'offline'}
                       </Button>
                     </CardActions>
                   </Card>

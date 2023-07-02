@@ -1,9 +1,3 @@
-// ** React Imports
-import { useContext } from 'react'
-
-// ** Context Imports
-import { AbilityContext } from 'src/layouts/components/acl/Can'
-
 // ** MUI Imports
 import Grid from '@mui/material/Grid'
 import Card from '@mui/material/Card'
@@ -22,7 +16,6 @@ const descTrim = (desc: string) => {
 const ACLPage = () => {
   // ** Hooks
   const router = useRouter()
-  const ability = useContext(AbilityContext)
 
   const { user } = useAuth()
   const useAxios = makeUseAxios({
@@ -52,7 +45,7 @@ const ACLPage = () => {
           memaksimalkan pengalaman dalam mengunjungi pameran dan tips-tips lainnya seputar dunia pameran. Jangan
           lewatkan kesempatan untuk meningkatkan pengetahuan Anda tentang pameran!
         </Typography>
-        {ability?.can('read', 'analytics') && (
+        {user?.role === 'admin' && (
           <Button variant='outlined' sx={{ my: 3 }} onClick={() => router.replace('/pameran/form')}>
             Tambah Pameran
           </Button>

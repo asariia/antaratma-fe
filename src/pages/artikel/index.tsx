@@ -1,8 +1,5 @@
 // ** React Imports
-import { useContext, useEffect, useState } from 'react'
-
-// ** Context Imports
-import { AbilityContext } from 'src/layouts/components/acl/Can'
+import { useEffect, useState } from 'react'
 
 // ** Axios
 import axios from 'axios'
@@ -20,7 +17,6 @@ import { useRouter } from 'next/router'
 const ACLPage = () => {
   // ** Hooks
   const router = useRouter()
-  const ability = useContext(AbilityContext)
 
   const [loading, setLoading] = useState(false)
   const [blogs, setBlogs] = useState([])
@@ -52,7 +48,7 @@ const ACLPage = () => {
           memaksimalkan pengalaman dalam mengunjungi pameran dan tips-tips lainnya seputar dunia pameran. Jangan
           lewatkan kesempatan untuk meningkatkan pengetahuan Anda tentang pameran!
         </Typography>
-        {ability?.can('read', 'analytics') && (
+        {user?.role === 'admin' && (
           <Button variant='outlined' sx={{ my: 3 }} onClick={() => router.replace('/artikel/form')}>
             Tambah Artikel
           </Button>

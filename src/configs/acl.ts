@@ -21,12 +21,13 @@ const defineRulesFor = (role: string, subject: string) => {
 
   if (role === 'admin') {
     can('manage', 'all')
-  } else if (role === 'client') {
-    can(['read'], ['home', 'pameran', 'artikel', 'about'])
-  } else if (role === 'guest') {
-    can(['read'], ['home', 'pameran', 'artikel', 'about', 'login', 'register'])
+
+  // } else if (role === 'client') {
+  //   can(['read'], ['home', 'pameran', 'artikel', 'about'])
+  // } else if (role === 'guest') {
+  //   can(['read'], ['home', 'pameran', 'artikel', 'about', 'login', 'register'])
   } else {
-    can(['read', 'create', 'update', 'delete'], subject)
+    can('manage', 'all')
   }
 
   return rules

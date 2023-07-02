@@ -1,10 +1,3 @@
-// ** React Imports
-// import { useContext } from 'react'
-
-// ** Context Imports
-// import { AbilityContext } from 'src/layouts/components/acl/Can'
-// import CardHeader from '@mui/material/CardHeader'
-
 // ** MUI Imports
 import Grid from '@mui/material/Grid'
 import Card from '@mui/material/Card'
@@ -14,10 +7,6 @@ import { Divider, TextField, DialogActions, Button } from '@mui/material'
 import { Box } from '@mui/system'
 
 const AboutPage = () => {
-  // ** Hooks
-  // const ability = useContext(AbilityContext)
-  // const router = useRouter()
-
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     const data = new FormData(event.currentTarget)
