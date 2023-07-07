@@ -17,18 +17,11 @@ export type ACLObj = {
  * admin can manage everything and client can just visit ACL page
  */
 const defineRulesFor = (role: string, subject: string) => {
-  console.log(subject)
   const { can, rules } = new AbilityBuilder(AppAbility)
-
   if (role === 'admin') {
     can('manage', 'all')
-
-  // } else if (role === 'client') {
-  //   can(['read'], ['home', 'pameran', 'artikel', 'about'])
-  // } else if (role === 'guest') {
-  //   can(['read'], ['home', 'pameran', 'artikel', 'about', 'login', 'register'])
   } else {
-    can('manage', 'all')
+    can('manage', ['home', 'pameran', 'artikel', 'about', subject])
   }
 
   return rules

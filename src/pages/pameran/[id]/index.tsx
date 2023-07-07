@@ -11,7 +11,7 @@ import Grid from '@mui/material/Grid'
 import Card from '@mui/material/Card'
 import Typography from '@mui/material/Typography'
 import CardContent from '@mui/material/CardContent'
-import { Button, CardActions, CardMedia, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, FormControl, FormControlLabel, FormHelperText, FormLabel, MenuItem, Radio, RadioGroup, Select, TextField } from '@mui/material'
+import { Button, CardActionArea, CardActions, CardMedia, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, FormControl, FormControlLabel, FormHelperText, FormLabel, MenuItem, Radio, RadioGroup, Select, TextField } from '@mui/material'
 import { Box } from '@mui/system'
 import { useAuth } from 'src/hooks/useAuth'
 import { useRouter } from 'next/router'
@@ -29,6 +29,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { useForm, Controller } from 'react-hook-form'
 import toast from 'react-hot-toast'
 import addDays from 'date-fns/addDays'
+import Link from 'next/link'
 
 // import { clsx } from 'clsx';
 // import { PanoViewer, SpinViewer, PROJECTION_TYPE } from "@egjs/react-view360";
@@ -57,7 +58,7 @@ const defaultValues = {
   phone: ''
 }
 
-const ACLPage = () => {
+const PameranDetailPage = () => {
   // ** Hooks
   const router = useRouter()
   const { user } = useAuth()
@@ -164,7 +165,7 @@ const ACLPage = () => {
         </Button>
       </Grid>
 
-      <Grid item lg={12} spacing={4}>
+      <Grid item lg={12}>
         {festLoading && (
           <Typography align='center' color='text.secondary' paragraph>
             Loading...
@@ -244,7 +245,7 @@ const ACLPage = () => {
             >
               {fest?.photos?.map((e: string) => (
                 <SwiperSlide key={e}>
-                  <img src={e} alt={e} style={{ width: '100%' }} />
+                  <img src={e} alt={e} style={{ width: '100%', maxHeight: 600 }} />
                 </SwiperSlide>
               ))}
             </Swiper>
@@ -260,6 +261,19 @@ const ACLPage = () => {
                 Alamat: {fest.address}
               </Typography>
             </Box>
+
+            {
+              router.query.id === '64a0609ab8da8f6b1a41e421' && <Box sx={{ px: 6, mt: 3 }}>
+                <Typography align='left' color='text.primary' paragraph>
+                  View 360 :
+                </Typography>
+                <a target="_blank" href="https://publish-one.vercel.app/">
+                  <Button variant='outlined'>
+                    Lihat Pameran
+                  </Button>
+                </a>
+              </Box>
+            }
 
             {user?.role === 'client' ?
               !booking?.name ? (
@@ -505,7 +519,7 @@ const ACLPage = () => {
           )}
       </Grid>
 
-      <Grid item lg={12} spacing={4}>
+      <Grid item lg={12}>
         <Typography component='h3' variant='h4' align='center' sx={{ my: 12 }} color='text.primary' gutterBottom>
           Pameran Lainnya
         </Typography>
@@ -522,6 +536,7 @@ const ACLPage = () => {
             <Grid container spacing={4}>
             {fests.map((e: any) => (
                 <Grid item xs={12} sm={6} md={4} key={e._id} sx={{ mb: 4 }}>
+                <CardActionArea component='a' href={'/pameran/' + e._id}>
                   <Card
                     sx={{
                       height: '100%',
@@ -541,14 +556,15 @@ const ACLPage = () => {
                       <Typography gutterBottom variant='h5' component='h2'>
                         {e.title}
                       </Typography>
-                    <Typography>{e.simpleText}</Typography>
+                      <Typography>{e.simpleText}</Typography>
                     </CardContent>
                     <CardActions>
-                      <Button size='small' onClick={() => router.replace('/artikel/' + e._id)}>
-                      Pameran {e.online ? 'online' : 'offline'}
+                      <Button size='small' onClick={() => router.replace('/pameran/' + e._id)}>
+                        Pameran {e.online ? 'online' : 'offline'}
                       </Button>
                     </CardActions>
                   </Card>
+                </CardActionArea>
                 </Grid>
               ))}
             </Grid>
@@ -558,9 +574,9 @@ const ACLPage = () => {
   )
 }
 
-ACLPage.acl = {
+PameranDetailPage.acl = {
   action: 'read',
   subject: 'pameran'
 }
 
-export default ACLPage
+export default PameranDetailPage

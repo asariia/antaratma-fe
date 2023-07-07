@@ -14,7 +14,7 @@ import { Container } from '@mui/system'
 import { useAuth } from 'src/hooks/useAuth'
 import { useRouter } from 'next/router'
 
-const ACLPage = () => {
+const ArtikelPage = () => {
   // ** Hooks
   const router = useRouter()
 
@@ -107,9 +107,9 @@ const ACLPage = () => {
   )
 }
 
-ACLPage.acl = {
+ArtikelPage.acl = {
   action: 'read',
   subject: 'artikel'
 }
 
-export default ACLPage
+export default ArtikelPage

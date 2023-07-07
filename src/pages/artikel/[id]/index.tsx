@@ -16,7 +16,7 @@ import { useAuth } from 'src/hooks/useAuth'
 import { useRouter } from 'next/router'
 import { makeUseAxios } from 'axios-hooks'
 
-const ACLPage = () => {
+const ArtikelDetailPage = () => {
   // ** Hooks
   const router = useRouter()
   const { user } = useAuth()
@@ -56,7 +56,7 @@ const ACLPage = () => {
         </Button>
       </Grid>
 
-      <Grid item md={12} lg={9} spacing={4}>
+      <Grid item md={12} lg={9}>
         {blogLoading && (
           <Typography align='center' color='text.secondary' paragraph>
             Loading...
@@ -94,7 +94,7 @@ const ACLPage = () => {
         )}
       </Grid>
 
-      <Grid item md={12} lg={3} spacing={4}>
+      <Grid item md={12} lg={3}>
         {loading && (
           <Typography align='center' color='text.secondary' paragraph>
             Loading...
@@ -144,9 +144,9 @@ const ACLPage = () => {
   )
 }
 
-ACLPage.acl = {
+ArtikelDetailPage.acl = {
   action: 'read',
   subject: 'artikel'
 }
 
-export default ACLPage
+export default ArtikelDetailPage

@@ -13,7 +13,7 @@ const descTrim = (desc: string) => {
   return desc.length < 60 ? desc : desc.slice(0, 57) + '...'
 }
 
-const ACLPage = () => {
+const PameranPage = () => {
   // ** Hooks
   const router = useRouter()
 
@@ -45,11 +45,6 @@ const ACLPage = () => {
           memaksimalkan pengalaman dalam mengunjungi pameran dan tips-tips lainnya seputar dunia pameran. Jangan
           lewatkan kesempatan untuk meningkatkan pengetahuan Anda tentang pameran!
         </Typography>
-        {user?.role === 'admin' && (
-          <Button variant='outlined' sx={{ my: 3 }} onClick={() => router.replace('/pameran/form')}>
-            Tambah Pameran
-          </Button>
-        )}
 
         <Typography component='h4' variant='h5' align='center' sx={{ my: 14 }} color='text.primary' gutterBottom>
           Pameran Offline
@@ -65,11 +60,11 @@ const ACLPage = () => {
             Data Empty
           </Typography>
         )) || (
-              <Grid container spacing={4}>
-                {ListOfflineData.map((e: any) => (
-                  <Grid item xs={12} sm={6} md={4} key={e._id}>
-                    <CardActionArea component='a' href={'/pameran/' + e._id}>
-                      <Card
+          <Grid container spacing={4}>
+            {ListOfflineData.map((e: any) => (
+              <Grid item xs={12} sm={6} md={4} key={e._id}>
+                <CardActionArea component='a' href={'/pameran/' + e._id}>
+                  <Card
                       sx={{
                         height: '100%',
                         display: 'flex',
@@ -92,14 +87,14 @@ const ACLPage = () => {
                       </CardContent>
                       <CardActions>
                         <Button size='small' onClick={() => router.replace('/pameran/' + e._id)}>
-                            {e.address}
+                        {e.address}
                         </Button>
                         {/* <Button size="small">Edit</Button> */}
                       </CardActions>
-                      </Card>
-                    </CardActionArea>
-                  </Grid>
-                ))}
+                  </Card>
+                </CardActionArea>
+              </Grid>
+            ))}
           </Grid>
           )}
 
@@ -122,31 +117,36 @@ const ACLPage = () => {
                 <Grid item xs={12} sm={6} md={4} key={e._id}>
                   <CardActionArea component='a' href={'/pameran/' + e._id}>
                     <Card
-                    sx={{
-                      height: '100%',
-                      display: 'flex',
-                      flexDirection: 'column'
-                    }}
-                  >
-                    <CardMedia
-                      component='div'
                       sx={{
-                        // 16:9
-                        pt: '56.25%'
+                        height: '100%',
+                        display: 'flex',
+                        flexDirection: 'column'
                       }}
-                      image={e.tumbnail}
-                    />
-                    <CardContent sx={{ flexGrow: 1 }}>
-                      <Typography gutterBottom variant='h5' component='h2'>
-                        {e.title}
-                      </Typography>
-                      <Typography>{descTrim(e.simpleText)}</Typography>
-                    </CardContent>
-                    <CardActions>
-                      <Button size='small' onClick={() => router.replace('/pameran/' + e._id)}>
+                    >
+                      <CardMedia
+                        component='div'
+                        sx={{
+                          // 16:9
+                          pt: '56.25%'
+                        }}
+                        image={e.tumbnail}
+                      />
+                      <CardContent sx={{ flexGrow: 1 }}>
+                        <Typography gutterBottom variant='h5' component='h2'>
+                          {e.title}
+                        </Typography>
+                        <Typography>{descTrim(e.simpleText)}</Typography>
+                      </CardContent>
+                      <CardActions>
+                        <Button size='small' onClick={() => router.replace('/pameran/' + e._id)}>
                           {e.address}
-                      </Button>
-                    </CardActions>
+                        </Button>
+                      </CardActions>
+                      <CardActions>
+                        {!!e.photos360.length && <Button size='small'>
+                          360 View
+                        </Button>}
+                      </CardActions>
                     </Card>
                   </CardActionArea>
                 </Grid>
@@ -158,9 +158,9 @@ const ACLPage = () => {
   )
 }
 
-ACLPage.acl = {
+PameranPage.acl = {
   action: 'read',
   subject: 'pameran'
 }
 
-export default ACLPage
+export default PameranPage

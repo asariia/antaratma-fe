@@ -22,7 +22,7 @@ import UserIcon from 'src/layouts/components/UserIcon'
 import { useRouter } from 'next/router'
 import { useAuth } from 'src/hooks/useAuth'
 
-const ACLPage = () => {
+const ArtikelFormPage = () => {
   // ** Hooks
   // const {user}: any = useThemeContext()
   // if (user?.name) return push("/")
@@ -233,9 +233,9 @@ const ACLPage = () => {
   )
 }
 
-ACLPage.acl = {
+ArtikelFormPage.acl = {
   action: 'read',
   subject: 'artikel-form'
 }
 
-export default ACLPage
+export default ArtikelFormPage
