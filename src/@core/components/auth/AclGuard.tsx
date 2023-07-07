@@ -39,6 +39,16 @@ const AclGuard = (props: AclGuardProps) => {
   const auth = useAuth()
   const router = useRouter()
 
+  if (!['/login', '/register'].includes(router.asPath) && !auth.user) auth.setUser({
+    id: 0,
+    role: 'guest',
+    password: 'guest',
+    fullName: 'guest',
+    username: 'guest',
+    email: '',
+    token: ''
+  })
+
   // ** Vars
   let ability: AppAbility
 

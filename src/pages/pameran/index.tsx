@@ -142,11 +142,11 @@ const PameranPage = () => {
                           {e.address}
                         </Button>
                       </CardActions>
-                      <CardActions>
+                      {/* <CardActions>
                         {!!e.photos360.length && <Button size='small'>
                           360 View
                         </Button>}
-                      </CardActions>
+                      </CardActions> */}
                     </Card>
                   </CardActionArea>
                 </Grid>

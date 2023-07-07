@@ -29,7 +29,6 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { useForm, Controller } from 'react-hook-form'
 import toast from 'react-hot-toast'
 import addDays from 'date-fns/addDays'
-import Link from 'next/link'
 
 // import { clsx } from 'clsx';
 // import { PanoViewer, SpinViewer, PROJECTION_TYPE } from "@egjs/react-view360";
