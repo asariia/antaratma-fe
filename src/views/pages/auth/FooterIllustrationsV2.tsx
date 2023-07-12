@@ -12,8 +12,9 @@ interface FooterIllustrationsProp {
 // Styled Components
 const MaskImg = styled('img')(({ theme }) => ({
   zIndex: -1,
-  bottom: '7%',
+  bottom: '19%',
   width: '100%',
+  left: '-212px',
   position: 'absolute',
   [theme.breakpoints.down('lg')]: {
     bottom: '17.5%'

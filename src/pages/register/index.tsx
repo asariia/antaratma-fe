@@ -1,5 +1,5 @@
 // ** React Imports
-import { ReactNode, useState } from 'react'
+import { useState } from 'react'
 
 // ** Next Import
 import Link from 'next/link'
@@ -21,12 +21,6 @@ import MuiFormControlLabel, { FormControlLabelProps } from '@mui/material/FormCo
 
 // ** Icon Imports
 import Icon from 'src/@core/components/icon'
-
-// ** Configs
-import themeConfig from 'src/configs/themeConfig'
-
-// ** Layout Import
-import BlankLayout from 'src/@core/layouts/BlankLayout'
 
 // ** Hooks
 import { useSettings } from 'src/@core/hooks/useSettings'
@@ -96,10 +90,6 @@ const LinkStyled = styled(Link)(({ theme }) => ({
   color: theme.palette.primary.main
 }))
 
-const LogoImage = styled('img')(() => ({
-  maxWidth: '2rem'
-}))
-
 interface FormData {
   name: string
   email: string
@@ -160,162 +150,152 @@ const Register = () => {
   }
 
   return (
-    <Box className='content-right'>
-      {!hidden ? (
-        <Box sx={{ flex: 1, display: 'flex', position: 'relative', alignItems: 'center', justifyContent: 'center' }}>
-          <RegisterIllustrationWrapper>
-            <RegisterIllustration
-              alt='register-illustration'
-              src={`https://i.pinimg.com/originals/24/5e/56/245e56a7844846a38a31dd087dcfbc2d.png`}
-            />
-          </RegisterIllustrationWrapper>
-          <FooterIllustrationsV2 image={`/images/pages/auth-v2-register-mask-${theme.palette.mode}.png`} />
-        </Box>
-      ) : null}
-      <RightWrapper sx={skin === 'bordered' && !hidden ? { borderLeft: `1px solid ${theme.palette.divider}` } : {}}>
-        <Box
-          sx={{
-            p: 7,
-            height: '100%',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            backgroundColor: 'background.paper'
-          }}
-        >
-          <BoxWrapper>
-            <Box
-              sx={{
-                top: 30,
-                left: 40,
-                display: 'flex',
-                position: 'absolute',
-                alignItems: 'center',
-                justifyContent: 'center'
-              }}
-            >
-              <LogoImage
-                src={
-                  'https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Fclipground.com%2Fimages%2Flotos-clipart-1.png&f=1&nofb=1&ipt=bc6ff02330943ff50512a1acabce8523141d962641452caf6281e9fffa7b804f&ipo=images'
-                }
+    <Box className='app-content' sx={{ overflowX: 'hidden', position: 'relative' }}>
+      <Box className='content-right'>
+        {!hidden ? (
+          <Box sx={{ flex: 1, display: 'flex', position: 'relative', alignItems: 'center', justifyContent: 'center' }}>
+            <RegisterIllustrationWrapper>
+              <RegisterIllustration
+                alt='register-illustration'
+                src={`/images/register.png`}
               />
-              <Typography variant='h6' sx={{ ml: 2, lineHeight: 1, fontWeight: 700, fontSize: '1.5rem !important' }}>
-                {themeConfig.templateName}
-              </Typography>
-            </Box>
-            <Box sx={{ mb: 6 }}>
-              <TypographyStyled variant='h5'>Adventure starts here 🚀</TypographyStyled>
-              <Typography variant='body2'>Make your app management easy and fun!</Typography>
-            </Box>
-            <form noValidate autoComplete='off' onSubmit={handleSubmit(onSubmit)}>
-              <FormControl fullWidth sx={{ mb: 4 }}>
-                <Controller
-                  name='name'
-                  control={control}
-                  rules={{ required: true }}
-                  render={({ field: { value, onChange, onBlur } }) => (
-                    <TextField
-                      autoFocus
-                      label='Username'
-                      value={value}
-                      onBlur={onBlur}
-                      onChange={onChange}
-                      error={Boolean(errors.name)}
-                      placeholder='Your Name'
-                    />
-                  )}
-                />
-                {errors.name && <FormHelperText sx={{ color: 'error.main' }}>{errors.name.message}</FormHelperText>}
-              </FormControl>
-              <FormControl fullWidth sx={{ mb: 4 }}>
-                <Controller
-                  name='email'
-                  control={control}
-                  rules={{ required: true }}
-                  render={({ field: { value, onChange, onBlur } }) => (
-                    <TextField
-                      autoFocus
-                      label='Email'
-                      value={value}
-                      onBlur={onBlur}
-                      onChange={onChange}
-                      error={Boolean(errors.email)}
-                      placeholder='your@mail.com'
-                    />
-                  )}
-                />
-                {errors.email && <FormHelperText sx={{ color: 'error.main' }}>{errors.email.message}</FormHelperText>}
-              </FormControl>
-              <FormControl fullWidth>
-                <InputLabel htmlFor='auth-login-v2-password' error={Boolean(errors.password)}>
-                  Password
-                </InputLabel>
-                <Controller
-                  name='password'
-                  control={control}
-                  rules={{ required: true }}
-                  render={({ field: { value, onChange, onBlur } }) => (
-                    <OutlinedInput
-                      value={value}
-                      onBlur={onBlur}
-                      label='Password'
-                      onChange={onChange}
-                      id='auth-login-v2-password'
-                      error={Boolean(errors.password)}
-                      type={showPassword ? 'text' : 'password'}
-                      endAdornment={
-                        <InputAdornment position='end'>
-                          <IconButton
-                            edge='end'
-                            onMouseDown={e => e.preventDefault()}
-                            onClick={() => setShowPassword(!showPassword)}
-                          >
-                            <Icon icon={showPassword ? 'mdi:eye-outline' : 'mdi:eye-off-outline'} fontSize={20} />
-                          </IconButton>
-                        </InputAdornment>
-                      }
-                    />
-                  )}
-                />
-                {errors.password && (
-                  <FormHelperText sx={{ color: 'error.main' }} id=''>
-                    {errors.password.message}
-                  </FormHelperText>
-                )}
-              </FormControl>
-
-              <FormControlLabel
-                control={<Checkbox />}
-                sx={{ mb: 4, mt: 1.5, '& .MuiFormControlLabel-label': { fontSize: '0.875rem' } }}
-                label={
-                  <>
-                    <Typography variant='body2' component='span'>
-                      I agree to{' '}
-                    </Typography>
-                    <LinkStyled href='/' onClick={e => e.preventDefault()}>
-                      privacy policy & terms
-                    </LinkStyled>
-                  </>
-                }
-              />
-              <Button fullWidth size='large' type='submit' variant='contained' sx={{ mb: 7 }}>
-                Sign up
-              </Button>
-              <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', justifyContent: 'center' }}>
-                <Typography sx={{ mr: 2, color: 'text.secondary' }}>Already have an account?</Typography>
-                <Typography href='/login' component={Link} sx={{ color: 'primary.main', textDecoration: 'none' }}>
-                  Sign in instead
-                </Typography>
+            </RegisterIllustrationWrapper>
+            <FooterIllustrationsV2 image={`/images/pages/auth-v2-register-mask-${theme.palette.mode}.png`} />
+          </Box>
+        ) : null}
+        <RightWrapper sx={skin === 'bordered' && !hidden ? {
+          borderLeft: `1px solid ${theme.palette.divider}`,
+          position: 'absolute',
+          right: 0,
+          top: 50,
+        } : {
+          position: 'absolute',
+          right: 0,
+          top: 50,
+        }}>
+          <Box
+            sx={{
+              p: 7,
+              height: '100%',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              backgroundColor: 'background.paper'
+            }}
+          >
+            <BoxWrapper>
+              <Box sx={{ mb: 6 }}>
+                <TypographyStyled variant='h5'>Adventure starts here 🚀</TypographyStyled>
+                <Typography variant='body2'>Make your app management easy and fun!</Typography>
               </Box>
-            </form>
-          </BoxWrapper>
-        </Box>
-      </RightWrapper>
+              <form noValidate autoComplete='off' onSubmit={handleSubmit(onSubmit)}>
+                <FormControl fullWidth sx={{ mb: 4 }}>
+                  <Controller
+                    name='name'
+                    control={control}
+                    rules={{ required: true }}
+                    render={({ field: { value, onChange, onBlur } }) => (
+                      <TextField
+                        autoFocus
+                        label='Username'
+                        value={value}
+                        onBlur={onBlur}
+                        onChange={onChange}
+                        error={Boolean(errors.name)}
+                        placeholder='Your Name'
+                      />
+                    )}
+                  />
+                  {errors.name && <FormHelperText sx={{ color: 'error.main' }}>{errors.name.message}</FormHelperText>}
+                </FormControl>
+                <FormControl fullWidth sx={{ mb: 4 }}>
+                  <Controller
+                    name='email'
+                    control={control}
+                    rules={{ required: true }}
+                    render={({ field: { value, onChange, onBlur } }) => (
+                      <TextField
+                        autoFocus
+                        label='Email'
+                        value={value}
+                        onBlur={onBlur}
+                        onChange={onChange}
+                        error={Boolean(errors.email)}
+                        placeholder='your@mail.com'
+                      />
+                    )}
+                  />
+                  {errors.email && <FormHelperText sx={{ color: 'error.main' }}>{errors.email.message}</FormHelperText>}
+                </FormControl>
+                <FormControl fullWidth>
+                  <InputLabel htmlFor='auth-login-v2-password' error={Boolean(errors.password)}>
+                    Password
+                  </InputLabel>
+                  <Controller
+                    name='password'
+                    control={control}
+                    rules={{ required: true }}
+                    render={({ field: { value, onChange, onBlur } }) => (
+                      <OutlinedInput
+                        value={value}
+                        onBlur={onBlur}
+                        label='Password'
+                        onChange={onChange}
+                        id='auth-login-v2-password'
+                        error={Boolean(errors.password)}
+                        type={showPassword ? 'text' : 'password'}
+                        endAdornment={
+                          <InputAdornment position='end'>
+                            <IconButton
+                              edge='end'
+                              onMouseDown={e => e.preventDefault()}
+                              onClick={() => setShowPassword(!showPassword)}
+                            >
+                              <Icon icon={showPassword ? 'mdi:eye-outline' : 'mdi:eye-off-outline'} fontSize={20} />
+                            </IconButton>
+                          </InputAdornment>
+                        }
+                      />
+                    )}
+                  />
+                  {errors.password && (
+                    <FormHelperText sx={{ color: 'error.main' }} id=''>
+                      {errors.password.message}
+                    </FormHelperText>
+                  )}
+                </FormControl>
+
+                <FormControlLabel
+                  control={<Checkbox />}
+                  sx={{ mb: 4, mt: 1.5, '& .MuiFormControlLabel-label': { fontSize: '0.875rem' } }}
+                  label={
+                    <>
+                      <Typography variant='body2' component='span'>
+                        I agree to{' '}
+                      </Typography>
+                      <LinkStyled href='/' onClick={e => e.preventDefault()}>
+                        privacy policy & terms
+                      </LinkStyled>
+                    </>
+                  }
+                />
+                <Button fullWidth size='large' type='submit' variant='contained' sx={{ mb: 7 }}>
+                  Sign up
+                </Button>
+                <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', justifyContent: 'center' }}>
+                  <Typography sx={{ mr: 2, color: 'text.secondary' }}>Already have an account?</Typography>
+                  <Typography href='/login' component={Link} sx={{ color: 'primary.main', textDecoration: 'none' }}>
+                    Sign in instead
+                  </Typography>
+                </Box>
+              </form>
+            </BoxWrapper>
+          </Box>
+        </RightWrapper>
+      </Box>
     </Box>
   )
 }
-
-Register.getLayout = (page: ReactNode) => <BlankLayout>{page}</BlankLayout>
 
 Register.guestGuard = true
 
