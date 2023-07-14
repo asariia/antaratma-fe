@@ -37,3 +37,8 @@ code:not([class*='language-']):after {
 code[class*='language-'] {
   padding: 0;
 }
+
+
+.MuiTypography-root h1{
+  font-family: "Poppins";
+}

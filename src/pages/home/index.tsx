@@ -26,10 +26,10 @@ const sectionsOnline = [
 ]
 
 const mainFeaturedPost = {
-  title: 'Antaratma: Pameran Online dan Offline di Indonesia!',
+  title: 'Antaratma: Penuhi Jiwa dengan Keindahan Seni',
   description:
     'Selamat datang di situs Pameran kami! Kami menyediakan informasi lengkap tentang pameran-pameran terbaru, baik yang dilaksanakan secara online maupun offline. Temukan beragam pilihan pameran yang menarik dan sesuai dengan kebutuhan Anda.',
-  image: 'https://vps.chipkoding.tech/upload/img/pattern_react.png',
+  image: 'https://storage.googleapis.com/udahgatau/huhu.png',
   imageText: 'main image description',
   linkText: 'Continue reading…'
 }
@@ -64,11 +64,11 @@ const Home = () => {
             backgroundColor: 'transparent',
             color: '#fff',
             mb: 4,
-            backgroundSize: '700px',
+            backgroundSize: '640px',
             backgroundRepeat: 'no-repeat',
 
             // backgroundPosition: 'center',
-            backgroundPosition: 'right 10px top 10px',
+            backgroundPosition: 'right 30px top 20px',
             backgroundImage: `url(${mainFeaturedPost.image})`
           }}
         >
@@ -94,9 +94,18 @@ const Home = () => {
                   pl: { xs: 10, md: 15 }
                 }}
               >
-                <Typography component='h1' variant='h3' align='left' color='rgb(71,85,105)' gutterBottom>
-                  {mainFeaturedPost.title}
+                <Box>
+                <Typography component='h1' variant='h3' align='left' color='rgb(0,0,0)' gutterBottom 
+                sx={{
+                  fontFamily: 'Mochiy Pop One'
+                }}>
+                  Antaratma
                 </Typography>
+                <Typography variant='h3' paragraph
+                sx={{
+                  fontFamily: 'Mochiy Pop One'
+                }}>Penuhi Jiwa dengan Keindahan Seni </Typography>
+                </Box>
                 <Typography variant='h5' align='left' color='rgb(71,85,105)' paragraph>
                   {mainFeaturedPost.description}
                 </Typography>

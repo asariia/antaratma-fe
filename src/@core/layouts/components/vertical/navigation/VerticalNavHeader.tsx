@@ -137,7 +137,7 @@ const VerticalNavHeader = (props: Props) => {
               'https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Fclipground.com%2Fimages%2Flotos-clipart-1.png&f=1&nofb=1&ipt=bc6ff02330943ff50512a1acabce8523141d962641452caf6281e9fffa7b804f&ipo=images'
             }
           />
-          <HeaderTitle variant='h6' sx={{ ...menuCollapsedStyles, ...(navCollapsed && !navHover ? {} : { ml: 2 }) }}>
+          <HeaderTitle variant='h6' sx={{fontFamily: 'Mochiy Pop One', ...menuCollapsedStyles, ...(navCollapsed && !navHover ? {} : { ml: 2 }) }}>
             {themeConfig.templateName}
           </HeaderTitle>
         </LinkStyled>
