@@ -81,7 +81,11 @@ const AboutPage = () => {
           <Grid item xs={12}>
             <Card>
               <CardContent>
-                <Typography variant='h6' sx={{ mt: 2 }}>
+                <Typography variant='h6' color='rgb(0,0,0)' 
+                sx={{ 
+                  mt: 2, 
+                  fontFamily: 'Poppins'
+                }}>
                   Hubungi Kami
                 </Typography>
                 <Divider sx={{ mt: theme => `${theme.spacing(4)} !important` }} />

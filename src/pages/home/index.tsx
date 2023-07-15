@@ -95,14 +95,13 @@ const Home = () => {
                 }}
               >
                 <Box>
-                
                 <Typography variant='h3' color='rgb(0,0,0)' paragraph
                 sx={{
                   fontFamily: 'Mochiy Pop One',
                   marginBottom: '30px' 
                 }}>Penuhi Jiwa dengan Keindahan Seni </Typography>
                 </Box>
-                <Typography variant='h5' align='left' color='rgb(71,85,105)' paragraph>
+                <Typography variant='h5' align='left' color='rgb(71,85,105)' textAlign='justify' paragraph>
                   {mainFeaturedPost.description}
                 </Typography>
               </Box>
@@ -112,7 +111,10 @@ const Home = () => {
       </Grid>
 
       <Grid item xs={12}>
-        <Typography component='h3' variant='h4' align='center' color='text.primary' gutterBottom>
+        <Typography component='h3' variant='h4' align='center' color='rgb(0,0,0)' gutterBottom
+        sx={{
+          fontFamily: 'Poppins',
+        }}>
           Kunjungi Pameran
         </Typography>
         <Typography align='center' color='text.secondary' paragraph>
@@ -198,7 +200,10 @@ const Home = () => {
         </Grid>
 
         <Box sx={{ my: 12 }}>
-          <Typography component='h3' variant='h4' align='center' color='text.primary' gutterBottom>
+          <Typography component='h3' variant='h4' align='center' color='rgb(0,0,0)' gutterBottom
+          sx={{
+            fontFamily: 'Poppins',
+          }}>
             Artikel Antaratma
           </Typography>
           <Typography align='center' color='text.secondary' paragraph>
