@@ -50,8 +50,7 @@ const BlankLayoutAppBar = () => {
         <LinkStyled href='/'>
           <LogoImage
             src={
-              'https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Fclipground.com%2Fimages%2Flotos-clipart-1.png&f=1&nofb=1&ipt=bc6ff02330943ff50512a1acabce8523141d962641452caf6281e9fffa7b804f&ipo=images'
-            }
+              'https://storage.googleapis.com/udahgatau/favicon.png' }
           />
           {/* <svg width={40} fill='none' height={22} viewBox='0 0 268 150' xmlns='http://www.w3.org/2000/svg'>
             <rect

@@ -68,7 +68,7 @@ const Home = () => {
             backgroundRepeat: 'no-repeat',
 
             // backgroundPosition: 'center',
-            backgroundPosition: 'right 30px top 20px',
+            backgroundPosition: 'right 30px top -20px',
             backgroundImage: `url(${mainFeaturedPost.image})`
           }}
         >
@@ -95,15 +95,11 @@ const Home = () => {
                 }}
               >
                 <Box>
-                <Typography component='h1' variant='h3' align='left' color='rgb(0,0,0)' gutterBottom 
+                
+                <Typography variant='h3' color='rgb(0,0,0)' paragraph
                 sx={{
-                  fontFamily: 'Mochiy Pop One'
-                }}>
-                  Antaratma
-                </Typography>
-                <Typography variant='h3' paragraph
-                sx={{
-                  fontFamily: 'Mochiy Pop One'
+                  fontFamily: 'Mochiy Pop One',
+                  marginBottom: '30px' 
                 }}>Penuhi Jiwa dengan Keindahan Seni </Typography>
                 </Box>
                 <Typography variant='h5' align='left' color='rgb(71,85,105)' paragraph>
