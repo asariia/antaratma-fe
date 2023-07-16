@@ -6,10 +6,8 @@ import CardContent from '@mui/material/CardContent'
 import { Divider, TextField, DialogActions, Button } from '@mui/material'
 import { Box } from '@mui/system'
 import axios from 'axios'
-import { useAuth } from 'src/hooks/useAuth'
 
 const AboutPage = () => {
-  const { user } = useAuth()
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -23,11 +21,7 @@ const AboutPage = () => {
     }
 
     axios
-      .post('/contact', payload, {
-        headers: {
-          Authorization: `Bearer ${user?.token}`
-        }
-      })
+      .post('/contact', payload)
       .then(() => {
         alert('Contact us berhasil')
       })
