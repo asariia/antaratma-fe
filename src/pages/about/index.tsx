@@ -5,9 +5,13 @@ import Typography from '@mui/material/Typography'
 import CardContent from '@mui/material/CardContent'
 import { Divider, TextField, DialogActions, Button } from '@mui/material'
 import { Box } from '@mui/system'
+import { useAuth } from 'src/hooks/useAuth'
 import axios from 'axios'
+import { useEffect, useState } from 'react'
 
 const AboutPage = () => {
+  const { user } = useAuth()
+  const [contacts, setContacts] = useState<any>({})
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -26,6 +30,18 @@ const AboutPage = () => {
         alert('Contact us berhasil')
       })
   }
+
+  useEffect(() => {
+    if (user?.role === 'admin') contactList()
+  }, [])
+
+  const contactList = () => axios.get('/contacts', {
+    headers: {
+      Authorization: `Bearer ${user?.token}`
+    }
+  }).then((response) => {
+    setContacts(response.data)
+  });
 
   return (
     <Grid container spacing={6}>
@@ -86,66 +102,118 @@ const AboutPage = () => {
 
       <Grid item md={12} lg={4}>
         <Grid container spacing={3}>
-          <Grid item xs={12}>
-            <Card>
-              <CardContent>
-                <Typography variant='h6' color='rgb(0,0,0)'
-                  sx={{
-                    mt: 2,
-                    fontFamily: 'Poppins'
-                  }}>
-                  Hubungi Kami
-                </Typography>
-                <Divider sx={{ mt: theme => `${theme.spacing(4)} !important` }} />
-                <Box sx={{ pt: 5, pb: 1 }}>
-                  <Box component='form' noValidate onSubmit={handleSubmit}>
-                    <TextField
-                      margin='normal'
-                      autoFocus
-                      required
-                      fullWidth
-                      name='name'
-                      label='Name'
-                      placeholder='Your name'
-                    />
-                    <TextField
-                      margin='normal'
-                      required
-                      fullWidth
-                      name='email'
-                      type='email'
-                      label='Email'
-                      placeholder='abc@gmail.com'
-                    />
-                    <TextField margin='normal' required fullWidth name='phone' label='Phone' placeholder='+62' />
-                    <TextField
-                      margin='normal'
-                      required
-                      name='message'
-                      rows={4}
-                      multiline
-                      fullWidth
-                      variant='filled'
-                      label='Message'
-                      placeholder='Message'
-                      id='textarea-outlined-static'
-                    />
 
-                    <DialogActions
-                      sx={{
-                        justifyContent: 'right',
-                        pt: 3
-                      }}
-                    >
-                      <Button type='submit' variant='contained' sx={{ mr: 2 }}>
-                        Submit
-                      </Button>
-                    </DialogActions>
-                  </Box>
+          {user?.role === 'admin' ? (
+            <>
+              <Box sx={{ mb: 3, mt: 3 }}>
+                <Typography component='h3' variant='h4' align='center' color='text.primary' gutterBottom>
+                  List Contact
+                </Typography>
+              </Box>
+              {contacts?.length ? contacts.map((contact: any, id: number) => (
+                <Grid item xs={12} key={contact.name + id}>
+                  <Card
+                    sx={{
+                      height: '100%',
+                      display: 'flex',
+                      flexDirection: 'column'
+                    }}
+                  >
+                    <CardContent sx={{ flexGrow: 1 }}>
+                      <Box sx={{ px: 6, mt: 3 }}>
+                        <Typography align='left' color='text.primary' paragraph>
+                          Nama Lengkap / Fullname: {contact.name}
+                        </Typography>
+                      </Box>
+                      <Box sx={{ px: 6, mt: 3 }}>
+                        <Typography align='left' color='text.primary' paragraph>
+                          Email: {contact.email}
+                        </Typography>
+                      </Box>
+                      <Box sx={{ px: 6, mt: 3 }}>
+                        <Typography align='left' color='text.primary' paragraph>
+                          Nomor HP / Phone: {contact.phone}
+                        </Typography>
+                      </Box>
+                      <Box sx={{ px: 6, mt: 3 }}>
+                        <Typography align='left' color='text.primary' paragraph>
+                          Pesan / Message: {contact.message}
+                        </Typography>
+                      </Box>
+                    </CardContent>
+                  </Card>
+                </Grid>
+              )) : (
+                <Box sx={{ px: 6, mt: 3 }}>
+                  <Typography align='left' color='text.primary' paragraph>
+                    No Data
+                  </Typography>
                 </Box>
-              </CardContent>
-            </Card>
-          </Grid>
+              )}
+            </>
+          ) : (
+              <Grid item xs={12}>
+                <Card>
+                  <CardContent>
+                    <Typography variant='h6' color='rgb(0,0,0)'
+                      sx={{
+                        mt: 2,
+                        fontFamily: 'Poppins'
+                      }}>
+                      Hubungi Kami
+                    </Typography>
+                    <Divider sx={{ mt: theme => `${theme.spacing(4)} !important` }} />
+                    <Box sx={{ pt: 5, pb: 1 }}>
+                      <Box component='form' noValidate onSubmit={handleSubmit}>
+                        <TextField
+                          margin='normal'
+                          autoFocus
+                          required
+                          fullWidth
+                          name='name'
+                          label='Name'
+                          placeholder='Your name'
+                        />
+                        <TextField
+                          margin='normal'
+                          required
+                          fullWidth
+                          name='email'
+                          type='email'
+                          label='Email'
+                          placeholder='abc@gmail.com'
+                        />
+                        <TextField margin='normal' required fullWidth name='phone' label='Phone' placeholder='+62' />
+                        <TextField
+                          margin='normal'
+                          required
+                          name='message'
+                          rows={4}
+                          multiline
+                          fullWidth
+                          variant='filled'
+                          label='Message'
+                          placeholder='Message'
+                          id='textarea-outlined-static'
+                        />
+
+                        <DialogActions
+                          sx={{
+                            justifyContent: 'right',
+                            pt: 3
+                          }}
+                        >
+                          <Button type='submit' variant='contained' sx={{ mr: 2 }}>
+                            Submit
+                          </Button>
+                        </DialogActions>
+                      </Box>
+                    </Box>
+                  </CardContent>
+                </Card>
+            </Grid >
+          )}
+
         </Grid>
       </Grid>
     </Grid>
