@@ -5,18 +5,32 @@ import Typography from '@mui/material/Typography'
 import CardContent from '@mui/material/CardContent'
 import { Divider, TextField, DialogActions, Button } from '@mui/material'
 import { Box } from '@mui/system'
+import axios from 'axios'
+import { useAuth } from 'src/hooks/useAuth'
 
 const AboutPage = () => {
+  const { user } = useAuth()
+
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     const data = new FormData(event.currentTarget)
 
-    console.log({
+    const payload = {
       name: data.get('name'),
       email: data.get('email'),
       phone: data.get('phone'),
       message: data.get('message')
-    })
+    }
+
+    axios
+      .post('/contact', payload, {
+        headers: {
+          Authorization: `Bearer ${user?.token}`
+        }
+      })
+      .then(() => {
+        alert('Contact us berhasil')
+      })
   }
 
   return (
@@ -81,11 +95,11 @@ const AboutPage = () => {
           <Grid item xs={12}>
             <Card>
               <CardContent>
-                <Typography variant='h6' color='rgb(0,0,0)' 
-                sx={{ 
-                  mt: 2, 
-                  fontFamily: 'Poppins'
-                }}>
+                <Typography variant='h6' color='rgb(0,0,0)'
+                  sx={{
+                    mt: 2,
+                    fontFamily: 'Poppins'
+                  }}>
                   Hubungi Kami
                 </Typography>
                 <Divider sx={{ mt: theme => `${theme.spacing(4)} !important` }} />

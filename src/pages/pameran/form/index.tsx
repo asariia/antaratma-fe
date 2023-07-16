@@ -37,7 +37,6 @@ const PameranFormPage = () => {
   const [image, setImage] = useState([] as { img: string; featured: boolean }[])
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    console.log('handleSubmit')
     const data = new FormData(event.currentTarget)
     event.preventDefault()
 
