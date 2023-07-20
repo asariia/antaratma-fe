@@ -48,6 +48,10 @@ const ArtikelDetailPage = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
+  const descTrim = (desc: string) => {
+    return desc.length < 60 ? desc : desc.slice(0, 57) + '...'
+  }
+
   return (
     <Grid container spacing={6}>
       <Grid item md={12} lg={12}>
@@ -127,7 +131,7 @@ const ArtikelDetailPage = () => {
                     <Typography gutterBottom variant='h5' component='h2'>
                       {e.title}
                     </Typography>
-                    <Typography>{e.description}</Typography>
+                    <Typography>{descTrim(e.description)}</Typography>
                   </CardContent>
                   <CardActions>
                     <Button size='small' onClick={() => router.replace('/artikel/' + e._id)}>
