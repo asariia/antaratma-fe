@@ -31,6 +31,13 @@ const navigation = (): VerticalNavItemsType => {
       title: 'Tentang Kami',
       icon: 'mdi:info-outline',
     },
+    {
+      path: '/dashboard',
+      action: 'read',
+      subject: 'dashboard',
+      title: 'Dashboard',
+      icon: 'mdi:home-outline',
+    },
   ]
 }
 

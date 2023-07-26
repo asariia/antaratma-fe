@@ -1,5 +1,5 @@
 // ** React Imports
-import { ReactNode } from 'react'
+import { ReactNode, useEffect } from 'react'
 
 // ** MUI Imports
 import { Theme } from '@mui/material/styles'
@@ -23,6 +23,7 @@ import HorizontalAppBarContent from './components/horizontal/AppBarContent'
 
 // ** Hook Import
 import { useSettings } from 'src/@core/hooks/useSettings'
+import { useAuth } from 'src/hooks/useAuth'
 
 interface Props {
   children: ReactNode
@@ -32,6 +33,7 @@ interface Props {
 const UserLayout = ({ children, contentHeightFixed }: Props) => {
   // ** Hooks
   const { settings, saveSettings } = useSettings()
+  const { user } = useAuth()
 
   // ** Vars for server side navigation
   // const { menuItems: verticalMenuItems } = ServerSideVerticalNavItems()
@@ -45,6 +47,12 @@ const UserLayout = ({ children, contentHeightFixed }: Props) => {
    *  to know more about what values can be passed to this hook.
    *  ! Do not change this value unless you know what you are doing. It can break the template.
    */
+
+  useEffect(() => {
+    if (user?.role === 'admin') saveSettings({ ...settings, layout: 'vertical' })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
   const hidden = useMediaQuery((theme: Theme) => theme.breakpoints.down('lg'))
 
   if (hidden && settings.layout === 'horizontal') {

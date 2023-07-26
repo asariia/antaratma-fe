@@ -23,9 +23,6 @@ import { useRouter } from 'next/router'
 import { useAuth } from 'src/hooks/useAuth'
 
 const ArtikelFormPage = () => {
-  // ** Hooks
-  // const {user}: any = useThemeContext()
-  // if (user?.name) return push("/")
   function srcset(image: string, width: number, height: number, rows = 1, cols = 1) {
     return {
       src: `${image}?w=${width * cols}&h=${height * rows}&fit=crop&auto=format`,
@@ -37,7 +34,6 @@ const ArtikelFormPage = () => {
   const [image, setImage] = useState([] as { img: string; featured: boolean }[])
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    console.log('handleSubmit')
     const data = new FormData(event.currentTarget)
     event.preventDefault()
 
@@ -54,7 +50,7 @@ const ArtikelFormPage = () => {
       })
       .then(() => {
         alert('tambah artikel berhasil')
-        router.replace('/artikel')
+        router.push('/artikel')
       })
   }
 
@@ -122,7 +118,6 @@ const ArtikelFormPage = () => {
                               }
                             ]
                           })
-                          console.log({ data })
                         })
                       }
                       image.target.value = ''

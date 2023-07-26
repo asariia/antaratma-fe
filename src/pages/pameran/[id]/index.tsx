@@ -159,7 +159,7 @@ const PameranDetailPage = () => {
   return (
     <Grid container spacing={6}>
       <Grid item md={12} lg={12}>
-        <Button variant='outlined' sx={{ my: 3 }} onClick={() => router.replace('/pameran')}>
+        <Button variant='outlined' sx={{ my: 3 }} onClick={() => router.push('/pameran')}>
           Kembali
         </Button>
       </Grid>
@@ -329,7 +329,10 @@ const PameranDetailPage = () => {
                   </Box>
                 </>
               ) : user?.role === 'guest' ? (
-                <Button variant='outlined' onClick={() => router.replace('/login')}>
+                <Button variant='outlined' onClick={() => router.replace({
+                  pathname: '/login',
+                  query: { returnUrl: router.asPath }
+                })}>
                   Sign In
                 </Button>
               ) : null
@@ -535,35 +538,35 @@ const PameranDetailPage = () => {
             <Grid container spacing={4}>
             {fests.map((e: any) => (
                 <Grid item xs={12} sm={6} md={4} key={e._id} sx={{ mb: 4 }}>
-                <CardActionArea component='a' href={'/pameran/' + e._id}>
-                  <Card
-                    sx={{
-                      height: '100%',
-                      display: 'flex',
-                      flexDirection: 'column'
-                    }}
-                  >
-                    <CardMedia
-                      component='div'
+                  <CardActionArea component='a' onClick={() => router.push('/pameran/' + e._id)} >
+                    <Card
                       sx={{
-                        // 16:9
-                        pt: '56.25%'
+                        height: '100%',
+                        display: 'flex',
+                        flexDirection: 'column'
                       }}
-                      image={e.photos.length ? e.photos[0] : 'https://source.unsplash.com/random?wallpapers'}
-                    />
-                    <CardContent sx={{ flexGrow: 1 }}>
-                      <Typography gutterBottom variant='h5' component='h2'>
-                        {e.title}
-                      </Typography>
-                      <Typography>{e.simpleText}</Typography>
-                    </CardContent>
-                    <CardActions>
-                      <Button size='small' onClick={() => router.replace('/pameran/' + e._id)}>
-                        Pameran {e.online ? 'online' : 'offline'}
-                      </Button>
-                    </CardActions>
-                  </Card>
-                </CardActionArea>
+                    >
+                      <CardMedia
+                        component='div'
+                        sx={{
+                          // 16:9
+                          pt: '56.25%'
+                        }}
+                        image={e.photos.length ? e.photos[0] : 'https://source.unsplash.com/random?wallpapers'}
+                      />
+                      <CardContent sx={{ flexGrow: 1 }}>
+                        <Typography gutterBottom variant='h5' component='h2'>
+                          {e.title}
+                        </Typography>
+                        <Typography>{e.simpleText}</Typography>
+                      </CardContent>
+                      <CardActions>
+                        <Button size='small' onClick={() => router.push('/pameran/' + e._id)}>
+                          Pameran {e.online ? 'online' : 'offline'}
+                        </Button>
+                      </CardActions>
+                    </Card>
+                  </CardActionArea>
                 </Grid>
               ))}
             </Grid>

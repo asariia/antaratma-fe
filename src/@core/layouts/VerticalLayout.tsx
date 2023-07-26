@@ -108,7 +108,6 @@ const VerticalLayout = (props: LayoutProps) => {
               }),
               ...(contentWidth === 'boxed' && {
                 mx: 'auto',
-                '@media (min-width:1440px)': { maxWidth: 1440 },
                 '@media (min-width:1200px)': { maxWidth: '100%' }
               })
             }}

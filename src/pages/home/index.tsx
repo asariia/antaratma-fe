@@ -1,12 +1,13 @@
 // ** MUI Imports
 import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
-import { Card, CardActionArea, CardContent, CardMedia, Chip, Paper } from '@mui/material'
+import { Button, Card, CardActionArea, CardContent, CardMedia, Chip, Modal, Paper } from '@mui/material'
 import { Box } from '@mui/system'
 import axios from 'axios'
 import { makeUseAxios } from 'axios-hooks'
 import { useAuth } from 'src/hooks/useAuth'
 import { useRouter } from 'next/router'
+import React, { useEffect } from 'react'
 
 const sectionsOffline = [
   { title: 'The Truth Inside You', url: '#' },
@@ -34,14 +35,31 @@ const mainFeaturedPost = {
   linkText: 'Continue reading…'
 }
 
+const style = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 400,
+  bgcolor: 'background.paper',
+  border: '2px solid #000',
+  boxShadow: 24,
+  p: 4,
+};
+
+
 const descTrim = (desc: string) => {
   return desc.length < 60 ? desc : desc.slice(0, 57) + '...'
 }
 
 const Home = () => {
-  const { user } = useAuth()
-
   const router = useRouter()
+  const [open, setOpen] = React.useState(false)
+  const handleOpen = () => setOpen(true)
+  const handleLogin: any = () => router.replace('/login')
+  const handleClose = () => setOpen(false)
+
+  const { user } = useAuth()
 
   const useAxios = makeUseAxios({
     axios: axios.create({
@@ -51,6 +69,12 @@ const Home = () => {
       }
     })
   })
+
+  useEffect(() => {
+    if (!user?.token) handleOpen()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
   const [{ data: ListData = [], error, loading }] = useAxios<any>({
     url: '/blog'
   })
@@ -95,11 +119,11 @@ const Home = () => {
                 }}
               >
                 <Box>
-                <Typography variant='h3' color='rgb(0,0,0)' paragraph
-                sx={{
-                  fontFamily: 'Mochiy Pop One',
-                  marginBottom: '30px' 
-                }}>Penuhi Jiwa dengan Keindahan Seni </Typography>
+                  <Typography variant='h3' color='rgb(0,0,0)' paragraph
+                    sx={{
+                      fontFamily: 'Mochiy Pop One',
+                      marginBottom: '30px'
+                    }}>Penuhi Jiwa dengan Keindahan Seni </Typography>
                 </Box>
                 <Typography variant='h5' align='left' color='rgb(71,85,105)' textAlign='justify' paragraph>
                   {mainFeaturedPost.description}
@@ -110,11 +134,28 @@ const Home = () => {
         </Paper>
       </Grid>
 
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+          <Typography id="modal-modal-title" variant="h6" component="h2">
+            Selamat datang!
+          </Typography>
+          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+            Anda harus login untuk mengakses fitur ini.
+          </Typography>
+          <Button variant="contained" sx={{ mt: 4 }} fullWidth={true} onClick={handleLogin}>Login</Button>
+        </Box>
+      </Modal>
+
       <Grid item xs={12}>
         <Typography component='h3' variant='h4' align='center' color='rgb(0,0,0)' gutterBottom
-        sx={{
-          fontFamily: 'Poppins',
-        }}>
+          sx={{
+            fontFamily: 'Poppins',
+          }}>
           Kunjungi Pameran
         </Typography>
         <Typography align='center' color='text.secondary' paragraph>
@@ -122,7 +163,7 @@ const Home = () => {
         </Typography>
         <Grid container spacing={4} sx={{ mt: 8 }}>
           <Grid item xs={12} md={6} sx={{ pt: 14 }}>
-            <CardActionArea component='a' href='/pameran'>
+            <CardActionArea component='a' onClick={() => router.push('/pameran')} >
               <Card sx={{ display: 'flex' }}>
                 <CardContent sx={{ flex: 1, pr: 8, pt: 6 }}>
                   <Typography component='h2' variant='h4' sx={{ mb: 3 }}>
@@ -141,7 +182,7 @@ const Home = () => {
                     variant='subtitle1'
                     color='primary'
                     sx={{ mt: 1 }}
-                    onClick={() => router.replace('/pameran')}
+                    onClick={() => router.push('/pameran')}
                   >
                     Lihat Semua...
                   </Typography>
@@ -160,7 +201,7 @@ const Home = () => {
           </Grid>
 
           <Grid item xs={12} md={6} sx={{ pt: 14 }}>
-            <CardActionArea component='a' href='/pameran'>
+            <CardActionArea component='a' onClick={() => router.push('/pameran')} >
               <Card sx={{ display: 'flex' }}>
                 <CardMedia
                   component='img'
@@ -189,7 +230,7 @@ const Home = () => {
                     align='right'
                     color='primary'
                     sx={{ mt: 1 }}
-                    onClick={() => router.replace('/pameran')}
+                    onClick={() => router.push('/pameran')}
                   >
                     Lihat Semua...
                   </Typography>
@@ -201,9 +242,9 @@ const Home = () => {
 
         <Box sx={{ my: 12 }}>
           <Typography component='h3' variant='h4' align='center' color='rgb(0,0,0)' gutterBottom
-          sx={{
-            fontFamily: 'Poppins',
-          }}>
+            sx={{
+              fontFamily: 'Poppins',
+            }}>
             Artikel Antaratma
           </Typography>
           <Typography align='center' color='text.secondary' paragraph>
@@ -226,7 +267,7 @@ const Home = () => {
           <Grid container spacing={4}>
             {ListData?.slice(0, 6)?.map((e: any) => (
               <Grid key={e._id} item xs={12} sm={6} md={4}>
-                <CardActionArea component='a' href={'/artikel/' + e._id}>
+                <CardActionArea component='a' onClick={() => router.push('/artikel/' + e._id)} >
                   <Card
                     sx={{
                       height: '100%',

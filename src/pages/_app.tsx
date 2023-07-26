@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-page-custom-font */
 // ** React Imports
 import { ReactNode } from 'react'
 
@@ -15,7 +16,6 @@ import { CacheProvider } from '@emotion/react'
 import type { EmotionCache } from '@emotion/cache'
 
 // ** Config Imports
-
 import { defaultACLObj } from 'src/configs/acl'
 import themeConfig from 'src/configs/themeConfig'
 

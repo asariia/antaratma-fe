@@ -38,6 +38,7 @@ const ThemeComponent = (props: Props) => {
     theme = responsiveFontSizes(theme)
   }
 
+
   return (
     <ThemeProvider theme={theme}>
       <Direction direction={settings.direction}>

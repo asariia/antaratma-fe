@@ -55,7 +55,7 @@ const ArtikelDetailPage = () => {
   return (
     <Grid container spacing={6}>
       <Grid item md={12} lg={12}>
-        <Button variant='outlined' sx={{ my: 3 }} onClick={() => router.replace('/artikel')}>
+        <Button variant='outlined' sx={{ my: 3 }} onClick={() => router.push('/artikel')}>
           Kembali
         </Button>
       </Grid>
@@ -134,7 +134,7 @@ const ArtikelDetailPage = () => {
                     <Typography>{descTrim(e.description)}</Typography>
                   </CardContent>
                   <CardActions>
-                    <Button size='small' onClick={() => router.replace('/artikel/' + e._id)}>
+                    <Button size='small' onClick={() => router.push('/artikel/' + e._id)}>
                       View
                     </Button>
                   </CardActions>

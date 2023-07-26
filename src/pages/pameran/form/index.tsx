@@ -32,6 +32,7 @@ const PameranFormPage = () => {
       srcSet: `${image}?w=${width * cols}&h=${height * rows}&fit=crop&auto=format&dpr=2 2x`
     }
   }
+
   const router = useRouter()
   const { user } = useAuth()
   const [image, setImage] = useState([] as { img: string; featured: boolean }[])
@@ -53,7 +54,7 @@ const PameranFormPage = () => {
       })
       .then(() => {
         alert('tambah artikel berhasil')
-        router.replace('/artikel')
+        router.push('/artikel')
       })
   }
 
@@ -119,7 +120,6 @@ const PameranFormPage = () => {
                               }
                             ]
                           })
-                          console.log({ data })
                         })
                       }
                       image.target.value = ''

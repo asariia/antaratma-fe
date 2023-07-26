@@ -149,7 +149,7 @@ const PameranPage = () => {
           <Grid container spacing={4}>
             {ListOfflineData.map((e: any) => (
               <Grid item xs={12} sm={6} md={4} key={e._id}>
-                <CardActionArea component='a' href={'/pameran/' + e._id}>
+                <CardActionArea component='a' onClick={() => router.push('/pameran/' + e._id)} >
                   <Card
                       sx={{
                         height: '100%',
@@ -172,7 +172,7 @@ const PameranPage = () => {
                         <Typography>{descTrim(e.simpleText)}</Typography>
                       </CardContent>
                       <CardActions>
-                        <Button size='small' onClick={() => router.replace('/pameran/' + e._id)}>
+                      <Button size='small' onClick={() => router.push('/pameran/' + e._id)}>
                         {e.address}
                         </Button>
                         {/* <Button size="small">Edit</Button> */}
@@ -201,7 +201,7 @@ const PameranPage = () => {
             <Grid container spacing={4}>
               {ListOnlineData.map((e: any) => (
                 <Grid item xs={12} sm={6} md={4} key={e._id}>
-                  <CardActionArea component='a' href={'/pameran/' + e._id}>
+                  <CardActionArea component='a' onClick={() => router.push('/pameran/' + e._id)} >
                     <Card
                       sx={{
                         height: '100%',
@@ -224,7 +224,7 @@ const PameranPage = () => {
                         <Typography>{descTrim(e.simpleText)}</Typography>
                       </CardContent>
                       <CardActions>
-                        <Button size='small' onClick={() => router.replace('/pameran/' + e._id)}>
+                        <Button size='small' onClick={() => router.push('/pameran/' + e._id)}>
                           {e.address}
                         </Button>
                       </CardActions>

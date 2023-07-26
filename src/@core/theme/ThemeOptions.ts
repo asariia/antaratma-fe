@@ -2,9 +2,6 @@
 import { deepmerge } from '@mui/utils'
 import { PaletteMode, ThemeOptions } from '@mui/material'
 
-// ** User Theme Options
-import UserThemeOptions from 'src/layouts/UserThemeOptions'
-
 // ** Type Import
 import { Settings } from 'src/@core/context/settingsContext'
 
@@ -21,7 +18,7 @@ const themeOptions = (settings: Settings, overrideMode: PaletteMode): ThemeOptio
   const { skin, mode, direction, themeColor } = settings
 
   // ** Create New object before removing user component overrides and typography objects from userThemeOptions
-  const userThemeConfig: ThemeOptions = Object.assign({}, UserThemeOptions())
+  const userThemeConfig: ThemeOptions = Object.assign({}, {})
 
   const mergedThemeConfig: ThemeOptions = deepmerge(
     {

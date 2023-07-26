@@ -53,7 +53,7 @@ const ArtikelPage = () => {
           lewatkan kesempatan untuk meningkatkan pengetahuan Anda tentang pameran!
         </Typography>
         {user?.role === 'admin' && (
-          <Button variant='outlined' sx={{ my: 3 }} onClick={() => router.replace('/artikel/form')}>
+          <Button variant='outlined' sx={{ my: 3 }} onClick={() => router.push('/artikel/form')}>
             Tambah Artikel
           </Button>
         )}
@@ -72,7 +72,7 @@ const ArtikelPage = () => {
             <Grid container spacing={4}>
               {blogs.map((e: any) => (
                 <Grid item xs={12} sm={6} md={4} key={e._id}>
-                  <CardActionArea component='a' href={'/artikel/' + e._id}>
+                  <CardActionArea component='a' onClick={() => router.push('/artikel/' + e._id)} >
                     <Card
                       sx={{
                         height: '100%',
@@ -95,7 +95,7 @@ const ArtikelPage = () => {
                         <Typography>{descTrim(e.description)}</Typography>
                       </CardContent>
                       <CardActions>
-                        <Button size='small' onClick={() => router.replace('/artikel/' + e._id)}>
+                        <Button size='small' onClick={() => router.push('/artikel/' + e._id)}>
                           View
                         </Button>
                       </CardActions>
