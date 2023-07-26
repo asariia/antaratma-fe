@@ -118,7 +118,6 @@ const DashboardPage = () => {
   const { user } = useAuth()
   const router = useRouter()
 
-
   const useAxios = makeUseAxios({
     axios: axios.create({
       baseURL: process.env.NEXT_PUBLIC_BASEURL,
@@ -174,7 +173,6 @@ const DashboardPage = () => {
   }, [])
 
   return (
-
     <Grid container spacing={6}>
       <Grid item xs={12}>
         <Box sx={{ mb: 3 }}>

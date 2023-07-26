@@ -55,7 +55,8 @@ const AclGuard = (props: AclGuardProps) => {
   useEffect(() => {
     if (auth.user && auth.user.role && !guestGuard && router.route === '/') {
       const homeRoute = getHomeRoute(auth.user.role)
-      router.replace(homeRoute)
+      if (auth.user?.role === 'admin') router.replace('/dashboard')
+      else router.replace(homeRoute)
     }
   }, [auth.user, guestGuard, router])
 
@@ -86,6 +87,8 @@ const AclGuard = (props: AclGuardProps) => {
 
     return <AbilityContext.Provider value={ability}>{children}</AbilityContext.Provider>
   }
+
+  if (auth.user?.role === 'admin') router.replace('/dashboard')
 
   // Render Not Authorized component if the current user has limited access
   return (

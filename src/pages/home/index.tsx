@@ -1,13 +1,12 @@
 // ** MUI Imports
 import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
-import { Button, Card, CardActionArea, CardContent, CardMedia, Chip, Modal, Paper } from '@mui/material'
+import { Card, CardActionArea, CardContent, CardMedia, Chip, Paper } from '@mui/material'
 import { Box } from '@mui/system'
 import axios from 'axios'
 import { makeUseAxios } from 'axios-hooks'
 import { useAuth } from 'src/hooks/useAuth'
 import { useRouter } from 'next/router'
-import React, { useEffect } from 'react'
 
 const sectionsOffline = [
   { title: 'The Truth Inside You', url: '#' },
@@ -35,18 +34,6 @@ const mainFeaturedPost = {
   linkText: 'Continue reading…'
 }
 
-const style = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: 400,
-  bgcolor: 'background.paper',
-  border: '2px solid #000',
-  boxShadow: 24,
-  p: 4,
-};
-
 
 const descTrim = (desc: string) => {
   return desc.length < 60 ? desc : desc.slice(0, 57) + '...'
@@ -54,10 +41,6 @@ const descTrim = (desc: string) => {
 
 const Home = () => {
   const router = useRouter()
-  const [open, setOpen] = React.useState(false)
-  const handleOpen = () => setOpen(true)
-  const handleLogin: any = () => router.replace('/login')
-  const handleClose = () => setOpen(false)
 
   const { user } = useAuth()
 
@@ -69,11 +52,6 @@ const Home = () => {
       }
     })
   })
-
-  useEffect(() => {
-    if (!user?.token) handleOpen()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
 
   const [{ data: ListData = [], error, loading }] = useAxios<any>({
     url: '/blog'
@@ -133,23 +111,6 @@ const Home = () => {
           </Grid>
         </Paper>
       </Grid>
-
-      <Modal
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <Box sx={style}>
-          <Typography id="modal-modal-title" variant="h6" component="h2">
-            Selamat datang!
-          </Typography>
-          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            Anda harus login untuk mengakses fitur ini.
-          </Typography>
-          <Button variant="contained" sx={{ mt: 4 }} fullWidth={true} onClick={handleLogin}>Login</Button>
-        </Box>
-      </Modal>
 
       <Grid item xs={12}>
         <Typography component='h3' variant='h4' align='center' color='rgb(0,0,0)' gutterBottom

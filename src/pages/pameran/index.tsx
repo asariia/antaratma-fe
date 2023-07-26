@@ -1,9 +1,11 @@
+import React, { useEffect } from 'react'
+
 // ** MUI Imports
 import Grid from '@mui/material/Grid'
 import Card from '@mui/material/Card'
 import Typography from '@mui/material/Typography'
 import CardContent from '@mui/material/CardContent'
-import { CardMedia, CardActions, Button, CardActionArea, Box } from '@mui/material'
+import { Modal, Button, CardMedia, CardActions, CardActionArea, Box, Link } from '@mui/material'
 import { useAuth } from 'src/hooks/useAuth'
 import axios from 'axios'
 import { makeUseAxios } from 'axios-hooks'
@@ -13,11 +15,32 @@ const descTrim = (desc: string) => {
   return desc.length < 60 ? desc : desc.slice(0, 57) + '...'
 }
 
+const style = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 400,
+  bgcolor: 'background.paper',
+  border: '2px solid #000',
+  boxShadow: 24,
+  p: 4,
+};
+
 const PameranPage = () => {
   // ** Hooks
   const router = useRouter()
   const bookingList: any = {}
   const List: any = []
+
+  const [open, setOpen] = React.useState(false)
+  const handleOpen = () => setOpen(true)
+  const handleLogin: any = () => router.replace('/login')
+
+  useEffect(() => {
+    if (!user?.token) handleOpen()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   const { user } = useAuth()
   const useAxios = makeUseAxios({
@@ -28,6 +51,7 @@ const PameranPage = () => {
       }
     })
   })
+
   const [{ data: ListOfflineData = [], error: errOff, loading: loadOff }] = useAxios<any>({
     url: '/fests?online=false'
   })
@@ -109,6 +133,23 @@ const PameranPage = () => {
           memaksimalkan pengalaman dalam mengunjungi pameran dan tips-tips lainnya seputar dunia pameran. Jangan
           lewatkan kesempatan untuk meningkatkan pengetahuan Anda tentang pameran!
         </Typography>
+
+        <Modal
+          open={open}
+          onClose={handleLogin}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <Box sx={style}>
+            <Typography id="modal-modal-title" variant="h6" component="h2">
+              Selamat datang!
+            </Typography>
+            <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+              Anda harus login untuk mengakses fitur ini. <Link href="/policy">baca syarat dan ketentuan.</Link>
+            </Typography>
+            <Button variant="contained" sx={{ mt: 4 }} fullWidth={true} onClick={handleLogin}>Login</Button>
+          </Box>
+        </Modal>
 
 
         {user?.role === 'admin' && (

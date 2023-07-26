@@ -29,6 +29,7 @@ const defineRulesFor = (role: string, subject: string) => {
     can('read', 'policy')
   } else if (role === 'guest') {
     can('read', 'home')
+    can('read', 'pameran')
     can('read', 'artikel')
     can('read', 'about')
     can('read', 'policy')
