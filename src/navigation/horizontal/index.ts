@@ -31,6 +31,13 @@ const navigation = (): HorizontalNavItemsType => [
     title: 'Tentang Kami',
     icon: 'mdi:info-outline',
   },
+  {
+    path: '/policy',
+    action: 'read',
+    subject: 'policy',
+    title: 'Ketentuan',
+    icon: 'mdi:guardian',
+  },
 ]
 
 export default navigation

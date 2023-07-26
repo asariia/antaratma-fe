@@ -32,6 +32,13 @@ const navigation = (): VerticalNavItemsType => {
       icon: 'mdi:info-outline',
     },
     {
+      path: '/policy',
+      action: 'read',
+      subject: 'policy',
+      title: 'Ketentuan',
+      icon: 'mdi:guardian',
+    },
+    {
       path: '/dashboard',
       action: 'read',
       subject: 'dashboard',
