@@ -281,7 +281,7 @@ const PameranDetailPage = () => {
                     Pesan Tiket :
                   </Typography>
                   <Button variant='outlined' onClick={handleClickOpen}>
-                    Booking sekarang yay
+                    Booking sekarang yayi
                   </Button>
                 </Box>
 
