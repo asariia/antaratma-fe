@@ -83,7 +83,12 @@ const columnsBlogs = [
 const columnsBookings = [
   { id: 'name', label: 'Name', minWidth: 170 },
   { id: 'email', label: 'Email', minWidth: 170 },
+
   { id: 'phone', label: 'Nomor HP', minWidth: 100 },
+  {
+    id: 'bookingAt', label: 'Jam Booking', minWidth: 170,
+    format: (value: any) => new Date(value).toLocaleString()
+  },
   {
     id: 'age', label: 'Umur', minWidth: 100,
     align: 'right',
@@ -201,7 +206,22 @@ const DashboardPage = () => {
       {!fests_e && !fests_l && (
         <Grid item xs={12}>
           <Card>
-            <CardHeader title='List Pameran' />
+            <Grid
+              container
+              spacing={2}
+              direction="row"
+              justifyContent="space-between"
+              alignItems="center"
+            >
+              <Grid>
+                <CardHeader title='List Pameran' />
+              </Grid>
+              <Grid>
+                <Button variant='outlined' sx={{ m: 3 }} onClick={() => router.push('/pameran/form')}>
+                  Tambah Pameran
+                </Button>
+              </Grid>
+            </Grid>
             <TableStickyHeader columns={columnsFests} rows={fests} />
           </Card>
         </Grid>
@@ -210,10 +230,22 @@ const DashboardPage = () => {
       {!blogs_e && !blogs_l && (
         <Grid item xs={12}>
           <Card>
-            <CardHeader title='List Artikel' />
-            <Button variant='outlined' sx={{ my: 3 }} onClick={() => router.push('/artikel/form')}>
-              Tambah Artikel
-            </Button>
+            <Grid
+              container
+              spacing={2}
+              direction="row"
+              justifyContent="space-between"
+              alignItems="center"
+            >
+              <Grid>
+                <CardHeader title='List Artikel' />
+              </Grid>
+              <Grid>
+                <Button variant='outlined' sx={{ m: 3 }} onClick={() => router.push('/artikel/form')}>
+                  Tambah Artikel
+                </Button>
+              </Grid>
+            </Grid>
             <TableStickyHeader columns={columnsBlogs} rows={blogs} />
           </Card>
         </Grid>

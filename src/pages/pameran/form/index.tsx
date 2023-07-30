@@ -14,7 +14,10 @@ import {
   ImageListItemBar,
   IconButton,
   DialogActions,
-  Button
+  Button,
+  Radio,
+  RadioGroup, FormControl, FormControlLabel,
+  FormLabel
 } from '@mui/material'
 import { Box } from '@mui/system'
 import axios from 'axios'
@@ -36,6 +39,7 @@ const PameranFormPage = () => {
   const router = useRouter()
   const { user } = useAuth()
   const [image, setImage] = useState([] as { img: string; featured: boolean }[])
+  const [image360, setImage360] = useState([] as { img: string; featured: boolean }[])
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     const data = new FormData(event.currentTarget)
@@ -43,18 +47,27 @@ const PameranFormPage = () => {
 
     const payload = {
       title: data.get('title'),
+      address: data.get('address'),
+      online: data.get('online') === 'true' ? true : false,
       photos: image.map(e => e.img),
-      description: data.get('description')
+      photos360: image360.map(e => e.img),
+      description: data.get('description'),
+      tumbnail: image.map(e => e.img)[0],
+      simpleText: data.get('description'),
+      smallPhotos360: [],
+      maxGuests: 100,
+      price: 100000
     }
+
     axios
-      .post('/blog', payload, {
+      .post('/fest', payload, {
         headers: {
           Authorization: `Bearer ${user?.token}`
         }
       })
       .then(() => {
-        alert('tambah artikel berhasil')
-        router.push('/artikel')
+        alert('tambah Pameran berhasil')
+        router.push('/dashboard')
       })
   }
 
@@ -79,8 +92,116 @@ const PameranFormPage = () => {
                   fullWidth
                   name='title'
                   label='Judul'
-                  placeholder='Judul Postingan'
+                  placeholder='Judul Pameran'
                 />
+                <TextField
+                  margin='normal'
+                  required
+                  fullWidth
+                  name='address'
+                  label='Alamat'
+                  placeholder='Alamat Pameran'
+                />
+                <FormControl>
+                  <FormLabel id="demo-radio-buttons-group-label">Status Pameran</FormLabel>
+                  <RadioGroup
+                    aria-labelledby="demo-radio-buttons-group-label"
+                    defaultValue="true"
+                    name="online"
+                  >
+                    <FormControlLabel value="true" control={<Radio />} label="Online" />
+                    <FormControlLabel value="false" control={<Radio />} label="Offline" />
+                  </RadioGroup>
+                </FormControl>
+                <TextField
+                  margin='normal'
+                  required
+                  fullWidth
+                  focused
+                  name='photos360'
+                  type='file'
+                  label='Foto 360 List'
+                  inputProps={{
+                    accept: '.jpg,.jpeg,.png,.webp',
+                    multiple: 'multiple'
+                  }}
+                  onChange={(image: any) => {
+                    const [file] = image.target.files
+                    if (file) {
+                      for (let i = 0; i < image.target.files.length; i++) {
+                        const data = new FormData()
+                        data.append('sendimage', image.target.files[i])
+                        axios({
+                          url: 'https://vps.chipkoding.tech/upload.php',
+                          method: 'POST',
+                          data: data,
+                          headers: {
+                            Accept: 'application/json',
+                            'Content-Type': 'multipart/form-data'
+                          },
+                          withCredentials: false
+                        }).then(response => {
+                          const { data } = response
+                          if (!data.status) return alert('upload failed')
+                          setImage360(prev => {
+                            return [
+                              ...prev,
+                              {
+                                img: `https://vps.chipkoding.tech/upload/${data.fileName}`,
+                                featured: !prev.length
+                              }
+                            ]
+                          })
+                        })
+                      }
+                      image.target.value = ''
+                    }
+                  }}
+                />
+
+                <ImageList
+                  sx={{
+                    display: !image360?.length ? 'none' : 'block',
+                    width: 500,
+                    height: 450,
+                    transform: 'translateZ(0)'
+                  }}
+                  rowHeight={200}
+                  gap={1}
+                >
+                  {image360.map((item: any, index: number) => {
+                    const cols = 2
+                    const rows = 2
+
+                    return (
+                      <ImageListItem key={item.img} cols={cols} rows={rows}>
+                        <img {...srcset(item.img, 250, 400, rows, cols)} alt={'image'} loading='lazy' />
+                        <ImageListItemBar
+                          sx={{
+                            background:
+                              'linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, ' +
+                              'rgba(0,0,0,0.3) 70%, rgba(0,0,0,0) 100%)'
+                          }}
+                          position='top'
+                          actionIcon={
+                            <IconButton
+                              sx={{ color: 'red' }}
+                              aria-label={`delete`}
+                              onClick={() =>
+                                setImage360((prev: any) => {
+                                  return prev.filter((e: any, id: number) => id != index)
+                                })
+                              }
+                            >
+                              <UserIcon icon={'ic:outline-delete'} fontSize={'1.5rem'} />
+                            </IconButton>
+                          }
+                          actionPosition='right'
+                        />
+                      </ImageListItem>
+                    )
+                  })}
+                </ImageList>
                 <TextField
                   margin='normal'
                   required
@@ -88,7 +209,7 @@ const PameranFormPage = () => {
                   focused
                   name='photos'
                   type='file'
-                  label='Tumbnail'
+                  label='Tumbnail / Foto Slide'
                   inputProps={{
                     accept: '.jpg,.jpeg,.png,.webp',
                     multiple: 'multiple'

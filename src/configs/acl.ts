@@ -21,6 +21,7 @@ const defineRulesFor = (role: string, subject: string) => {
   if (role === 'admin') {
     can('manage', 'dashboard')
     can('manage', 'artikel-form')
+    can('manage', 'pameran-form')
   } else if (role === 'client') {
     can('read', 'home')
     can('read', 'pameran')

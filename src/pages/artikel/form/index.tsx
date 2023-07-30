@@ -50,7 +50,7 @@ const ArtikelFormPage = () => {
       })
       .then(() => {
         alert('tambah artikel berhasil')
-        router.push('/artikel')
+        router.push('/dashboard')
       })
   }
 
