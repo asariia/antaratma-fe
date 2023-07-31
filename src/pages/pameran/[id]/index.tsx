@@ -175,14 +175,14 @@ const PameranDetailPage = () => {
             Data Empty
           </Typography>
         )) || (
-          <Grid item lg={12}>
-            <Box sx={{ mb: 3, mt: 3 }}>
-              <Typography component='h3' variant='h4' align='center' color='text.primary' gutterBottom>
-                {fest.title}
-              </Typography>
-            </Box>
+            <Grid item lg={12}>
+              <Box sx={{ mb: 3, mt: 3 }}>
+                <Typography component='h3' variant='h4' align='center' color='text.primary' gutterBottom>
+                  {fest.title}
+                </Typography>
+              </Box>
 
-            {!!fest?.photos360?.length &&
+              {!!fest?.photos360?.length &&
                 <Box
                   sx={{
                     width: '100%',
@@ -209,315 +209,315 @@ const PameranDetailPage = () => {
                         </div>
                       ))}
                     </div> */}
-                </View360>
+                  </View360>
 
-                <Box
-                  sx={{
-                    width: '100%',
-                    textAlign: 'center'
-                  }}
-                >
-                  <Button variant='outlined' sx={{ my: 3 }} onClick={() => backProjection()}>
-                    Back
-                  </Button>
+                  <Box
+                    sx={{
+                      width: '100%',
+                      textAlign: 'center'
+                    }}
+                  >
+                    <Button variant='outlined' sx={{ my: 3 }} onClick={() => backProjection()}>
+                      Back
+                    </Button>
 
-                  <Button variant='outlined' sx={{ my: 3 }} onClick={() => nextProjection()}>
-                    Next
-                  </Button>
+                    <Button variant='outlined' sx={{ my: 3 }} onClick={() => nextProjection()}>
+                      Next
+                    </Button>
+                  </Box>
                 </Box>
-              </Box>
-            }
+              }
 
-            <Swiper
-              spaceBetween={30}
-              centeredSlides={true}
-              autoplay={{
-                delay: 2500,
-                disableOnInteraction: false,
-              }}
-              pagination={{
-                clickable: true,
-              }}
-              navigation={true}
-              modules={[Autoplay, Pagination, Navigation]}
-              className="mySwiper"
-            >
-              {fest?.photos?.map((e: string) => (
-                <SwiperSlide key={e}>
-                  <img src={e} alt={e} style={{ width: '100%', maxHeight: 600 }} />
-                </SwiperSlide>
-              ))}
-            </Swiper>
+              <Swiper
+                spaceBetween={30}
+                centeredSlides={true}
+                autoplay={{
+                  delay: 2500,
+                  disableOnInteraction: false,
+                }}
+                pagination={{
+                  clickable: true,
+                }}
+                navigation={true}
+                modules={[Autoplay, Pagination, Navigation]}
+                className="mySwiper"
+              >
+                {fest?.photos?.map((e: string) => (
+                  <SwiperSlide key={e}>
+                    <img src={e} alt={e} style={{ width: '100%', maxHeight: 600 }} />
+                  </SwiperSlide>
+                ))}
+              </Swiper>
 
-            <Box sx={{ px: 6, mt: 3 }}>
-              <Typography align='left' color='text.secondary' paragraph>
-                {fest.description}
-              </Typography>
-            </Box>
-
-            <Box sx={{ px: 6, mt: 3 }}>
-              <Typography align='left' color='text.primary' paragraph>
-                Alamat: {fest.address}
-              </Typography>
-            </Box>
-
-            {
-              router.query.id === '64a0609ab8da8f6b1a41e421' && <Box sx={{ px: 6, mt: 3 }}>
-                <Typography align='left' color='text.primary' paragraph>
-                  View 360 :
+              <Box sx={{ px: 6, mt: 3 }}>
+                <Typography align='left' color='text.secondary' paragraph>
+                  {fest.description}
                 </Typography>
-                <a target="_blank" href="https://publish-one.vercel.app/">
-                  <Button variant='outlined'>
-                    Lihat Pameran
-                  </Button>
-                </a>
               </Box>
-            }
 
-            {user?.role === 'client' ?
-              !booking?.name ? (
-                <Box sx={{ px: 6, mt: 3 }}>
+              <Box sx={{ px: 6, mt: 3 }}>
+                <Typography align='left' color='text.primary' paragraph>
+                  Alamat: {fest.address}
+                </Typography>
+              </Box>
+
+              {
+                router.query.id === '64a0609ab8da8f6b1a41e421' && <Box sx={{ px: 6, mt: 3 }}>
                   <Typography align='left' color='text.primary' paragraph>
-                    Pesan Tiket :
+                    View 360 :
                   </Typography>
-                  <Button variant='outlined' onClick={handleClickOpen}>
-                    Booking sekarang yayi
-                  </Button>
+                  <a target="_blank" href="antaratma-virtualtour.site">
+                    <Button variant='outlined'>
+                      Lihat Pameran
+                    </Button>
+                  </a>
                 </Box>
+              }
 
-              ) : (
-                <>
-                  <Box sx={{ px: 6, mt: 3 }}>
-                    <Typography component='h3' variant='h4' align='center' color='text.primary' gutterBottom>
-                      Booking Berhasil
-                    </Typography>
-                  </Box>
+              {user?.role === 'client' ?
+                !booking?.name ? (
                   <Box sx={{ px: 6, mt: 3 }}>
                     <Typography align='left' color='text.primary' paragraph>
-                      Nama Lengkap / Fullname: {booking.name}
+                      Pesan Tiket :
                     </Typography>
+                    <Button variant='outlined' onClick={handleClickOpen}>
+                      Booking sekarang yayi
+                    </Button>
                   </Box>
-                  <Box sx={{ px: 6, mt: 3 }}>
-                    <Typography align='left' color='text.primary' paragraph>
-                      Umur / Age: {booking.age} Tahun
-                    </Typography>
-                  </Box>
-                  <Box sx={{ px: 6, mt: 3 }}>
-                    <Typography align='left' color='text.primary' paragraph>
-                      Jenis Kelamin / Gender: {booking.gender}
-                    </Typography>
-                  </Box>
-                  <Box sx={{ px: 6, mt: 3 }}>
-                    <Typography align='left' color='text.primary' paragraph>
-                      Kewarganegaraan / Citizen: {booking.citizen}
-                    </Typography>
-                  </Box>
-                  <Box sx={{ px: 6, mt: 3 }}>
-                    <Typography align='left' color='text.primary' paragraph>
-                      Kota / City: {booking.city}
-                    </Typography>
-                  </Box>
-                  <Box sx={{ px: 6, mt: 3 }}>
-                    <Typography align='left' color='text.primary' paragraph>
-                      Email: {booking.email}
-                    </Typography>
-                  </Box>
-                  <Box sx={{ px: 6, mt: 3 }}>
-                    <Typography align='left' color='text.primary' paragraph>
-                      Kontak Telepon / Phone Number: {booking.phone}
-                    </Typography>
-                  </Box>
-                </>
-              ) : user?.role === 'guest' ? (
-                <Button variant='outlined' onClick={() => router.replace({
-                  pathname: '/login',
-                  query: { returnUrl: router.asPath }
-                })}>
-                  Sign In
-                </Button>
-              ) : null
-            }
+
+                ) : (
+                  <>
+                    <Box sx={{ px: 6, mt: 3 }}>
+                      <Typography component='h3' variant='h4' align='center' color='text.primary' gutterBottom>
+                        Booking Berhasil
+                      </Typography>
+                    </Box>
+                    <Box sx={{ px: 6, mt: 3 }}>
+                      <Typography align='left' color='text.primary' paragraph>
+                        Nama Lengkap / Fullname: {booking.name}
+                      </Typography>
+                    </Box>
+                    <Box sx={{ px: 6, mt: 3 }}>
+                      <Typography align='left' color='text.primary' paragraph>
+                        Umur / Age: {booking.age} Tahun
+                      </Typography>
+                    </Box>
+                    <Box sx={{ px: 6, mt: 3 }}>
+                      <Typography align='left' color='text.primary' paragraph>
+                        Jenis Kelamin / Gender: {booking.gender}
+                      </Typography>
+                    </Box>
+                    <Box sx={{ px: 6, mt: 3 }}>
+                      <Typography align='left' color='text.primary' paragraph>
+                        Kewarganegaraan / Citizen: {booking.citizen}
+                      </Typography>
+                    </Box>
+                    <Box sx={{ px: 6, mt: 3 }}>
+                      <Typography align='left' color='text.primary' paragraph>
+                        Kota / City: {booking.city}
+                      </Typography>
+                    </Box>
+                    <Box sx={{ px: 6, mt: 3 }}>
+                      <Typography align='left' color='text.primary' paragraph>
+                        Email: {booking.email}
+                      </Typography>
+                    </Box>
+                    <Box sx={{ px: 6, mt: 3 }}>
+                      <Typography align='left' color='text.primary' paragraph>
+                        Kontak Telepon / Phone Number: {booking.phone}
+                      </Typography>
+                    </Box>
+                  </>
+                ) : user?.role === 'guest' ? (
+                  <Button variant='outlined' onClick={() => router.replace({
+                    pathname: '/login',
+                    query: { returnUrl: router.asPath }
+                  })}>
+                    Sign In
+                  </Button>
+                ) : null
+              }
 
 
 
-            <Dialog open={open} onClose={handleClose} aria-labelledby='form-dialog-title'>
-              <DialogTitle id='form-dialog-title'>Booking Tiket {fest.title}</DialogTitle>
-              <form noValidate autoComplete='off' onSubmit={handleSubmit(onSubmit)}>
-                <DialogContent>
-                  <DialogContentText sx={{ mb: 8 }} color='text.primary'>
-                    Alamat: {fest.address}
-                  </DialogContentText>
+              <Dialog open={open} onClose={handleClose} aria-labelledby='form-dialog-title'>
+                <DialogTitle id='form-dialog-title'>Booking Tiket {fest.title}</DialogTitle>
+                <form noValidate autoComplete='off' onSubmit={handleSubmit(onSubmit)}>
+                  <DialogContent>
+                    <DialogContentText sx={{ mb: 8 }} color='text.primary'>
+                      Alamat: {fest.address}
+                    </DialogContentText>
 
-                  <FormControl fullWidth sx={{ mb: 4 }}>
-                    <FormLabel component='legend'>Tanggal Kunjungan / Visit Date</FormLabel>
-                    <Controller
-                      name='bookingAt'
-                      control={control}
-                      render={({ field: { value, onChange, onBlur } }) => (
-                        <DatePicker
-                          showTimeSelect
-                          selected={value}
-                          onBlur={onBlur}
-                          id='specific-time'
-                          dateFormat='MM/dd/yyyy h:mm aa'
-                          onChange={onChange}
-                          minDate={new Date()}
-                          maxDate={addDays(new Date(), 5)}
-                          minTime={setHours(setMinutes(new Date(), 0), 8)}
-                          maxTime={setHours(setMinutes(new Date(), 30), 17)}
-                          customInput={
-                            <TextField
-                              error={Boolean(errors.bookingAt)}
-                              placeholder='date'
-                            />
-                          }
-                        />
-                      )}
-                    />
-                    {errors.bookingAt && <FormHelperText sx={{ color: 'error.main' }}>{errors.bookingAt.message}</FormHelperText>}
-                  </FormControl>
-                  <FormControl fullWidth sx={{ mb: 4 }}>
-                    <FormLabel component='legend'>Nama Lengkap / Fullname</FormLabel>
-                    <Controller
-                      name='name'
-                      control={control}
-                      rules={{ required: true }}
-                      render={({ field: { value, onChange, onBlur } }) => (
-                        <TextField
-                          value={value}
-                          onBlur={onBlur}
-                          onChange={onChange}
-                          error={Boolean(errors.email)}
-                          placeholder='Nama Lengkap / Fullname'
-                        />
-                      )}
-                    />
-                    {errors.name && <FormHelperText sx={{ color: 'error.main' }}>{errors.name.message}</FormHelperText>}
-                  </FormControl>
-                  <FormControl fullWidth sx={{ mb: 4 }}>
-                    <FormLabel component='legend'>Umur / Age</FormLabel>
-                    <Controller
-                      name='age'
-                      control={control}
-                      rules={{ required: true }}
-                      render={({ field: { value, onChange, onBlur } }) => (
-                        <Select
-                          value={value}
-                          onBlur={onBlur}
-                          error={Boolean(errors.age)}
-                          onChange={onChange}
-                          placeholder='Umur / Age'
-                        >
-                          <MenuItem value={'< 18'}>{`< 18 Tahun`}</MenuItem>
-                          <MenuItem value={'18 - 24'}>{`18 - 24 Tahun`}</MenuItem>
-                          <MenuItem value={'24 >'}>{`24 > Tahun`}</MenuItem>
-                        </Select>
-                      )}
-                    />
-                    {errors.age && <FormHelperText sx={{ color: 'error.main' }}>{errors.age.message}</FormHelperText>}
-                  </FormControl>
-                  <FormControl fullWidth sx={{ mb: 4 }}>
-                    <FormLabel component='legend'>Jenis Kelamin / Gender</FormLabel>
-                    <Controller
-                      name='gender'
-                      control={control}
-                      rules={{ required: true }}
-                      render={({ field: { value, onChange, onBlur } }) => (
-                        <RadioGroup
-                          row
-                          value={value}
-                          onChange={onChange}
-                          onBlur={onBlur}
-                        >
-                          <FormControlLabel value='female' control={<Radio />} label='Perempuan / Female' />
-                          <FormControlLabel value='male' control={<Radio />} label='Laki-laki / Male' />
-                        </RadioGroup>
-                      )}
-                    />
-                    {errors.gender && <FormHelperText sx={{ color: 'error.main' }}>{errors.gender.message}</FormHelperText>}
-                  </FormControl>
-                  <FormControl fullWidth sx={{ mb: 4 }}>
-                    <FormLabel component='legend'>Kewarganegaraan / Citizen</FormLabel>
-                    <Controller
-                      name='citizen'
-                      control={control}
-                      rules={{ required: true }}
-                      render={({ field: { value, onChange, onBlur } }) => (
-                        <RadioGroup
-                          row
-                          value={value}
-                          onChange={onChange}
-                          onBlur={onBlur}
-                        >
-                          <FormControlLabel value='WNI' control={<Radio />} label='WNI / Indonesia Citizen' />
-                          <FormControlLabel value='WNA' control={<Radio />} label='WNA / Foreign Citizen' />
-                        </RadioGroup>
-                      )}
-                    />
-                    {errors.citizen && <FormHelperText sx={{ color: 'error.main' }}>{errors.citizen.message}</FormHelperText>}
-                  </FormControl>
-                  <FormControl fullWidth sx={{ mb: 4 }}>
-                    <FormLabel component='legend'>Kota / City</FormLabel>
-                    <Controller
-                      name='city'
-                      control={control}
-                      rules={{ required: true }}
-                      render={({ field: { value, onChange, onBlur } }) => (
-                        <TextField
-                          value={value}
-                          onBlur={onBlur}
-                          onChange={onChange}
-                          error={Boolean(errors.city)}
-                          placeholder='Kota / City'
-                        />
-                      )}
-                    />
-                    {errors.city && <FormHelperText sx={{ color: 'error.main' }}>{errors.city.message}</FormHelperText>}
-                  </FormControl>
-                  <FormControl fullWidth sx={{ mb: 4 }}>
-                    <FormLabel component='legend'>Email</FormLabel>
-                    <Controller
-                      name='email'
-                      control={control}
-                      rules={{ required: true }}
-                      render={({ field: { value, onChange, onBlur } }) => (
-                        <TextField
-                          value={value}
-                          onBlur={onBlur}
-                          onChange={onChange}
-                          error={Boolean(errors.email)}
-                          placeholder='your@mail.com'
-                        />
-                      )}
-                    />
-                    {errors.email && <FormHelperText sx={{ color: 'error.main' }}>{errors.email.message}</FormHelperText>}
-                  </FormControl>
-                  <FormControl fullWidth sx={{ mb: 4 }}>
-                    <FormLabel component='legend'>Kontak Telepon / Phone Number</FormLabel>
-                    <Controller
-                      name='phone'
-                      control={control}
-                      rules={{ required: true }}
-                      render={({ field: { value, onChange, onBlur } }) => (
-                        <TextField
-                          value={value}
-                          onBlur={onBlur}
-                          onChange={onChange}
-                          error={Boolean(errors.phone)}
-                          placeholder='+62 '
-                        />
-                      )}
-                    />
-                    {errors.phone && <FormHelperText sx={{ color: 'error.main' }}>{errors.phone.message}</FormHelperText>}
-                  </FormControl>
-                </DialogContent>
-                <DialogActions className='dialog-actions-dense'>
-                  <Button onClick={handleClose} >Kembali / Back</Button>
-                  <Button type='submit' variant='contained'>Kirim / Submit</Button>
-                </DialogActions>
-              </form>
-            </Dialog>
-          </Grid>
+                    <FormControl fullWidth sx={{ mb: 4 }}>
+                      <FormLabel component='legend'>Tanggal Kunjungan / Visit Date</FormLabel>
+                      <Controller
+                        name='bookingAt'
+                        control={control}
+                        render={({ field: { value, onChange, onBlur } }) => (
+                          <DatePicker
+                            showTimeSelect
+                            selected={value}
+                            onBlur={onBlur}
+                            id='specific-time'
+                            dateFormat='MM/dd/yyyy h:mm aa'
+                            onChange={onChange}
+                            minDate={new Date()}
+                            maxDate={addDays(new Date(), 5)}
+                            minTime={setHours(setMinutes(new Date(), 0), 8)}
+                            maxTime={setHours(setMinutes(new Date(), 30), 17)}
+                            customInput={
+                              <TextField
+                                error={Boolean(errors.bookingAt)}
+                                placeholder='date'
+                              />
+                            }
+                          />
+                        )}
+                      />
+                      {errors.bookingAt && <FormHelperText sx={{ color: 'error.main' }}>{errors.bookingAt.message}</FormHelperText>}
+                    </FormControl>
+                    <FormControl fullWidth sx={{ mb: 4 }}>
+                      <FormLabel component='legend'>Nama Lengkap / Fullname</FormLabel>
+                      <Controller
+                        name='name'
+                        control={control}
+                        rules={{ required: true }}
+                        render={({ field: { value, onChange, onBlur } }) => (
+                          <TextField
+                            value={value}
+                            onBlur={onBlur}
+                            onChange={onChange}
+                            error={Boolean(errors.email)}
+                            placeholder='Nama Lengkap / Fullname'
+                          />
+                        )}
+                      />
+                      {errors.name && <FormHelperText sx={{ color: 'error.main' }}>{errors.name.message}</FormHelperText>}
+                    </FormControl>
+                    <FormControl fullWidth sx={{ mb: 4 }}>
+                      <FormLabel component='legend'>Umur / Age</FormLabel>
+                      <Controller
+                        name='age'
+                        control={control}
+                        rules={{ required: true }}
+                        render={({ field: { value, onChange, onBlur } }) => (
+                          <Select
+                            value={value}
+                            onBlur={onBlur}
+                            error={Boolean(errors.age)}
+                            onChange={onChange}
+                            placeholder='Umur / Age'
+                          >
+                            <MenuItem value={'< 18'}>{`< 18 Tahun`}</MenuItem>
+                            <MenuItem value={'18 - 24'}>{`18 - 24 Tahun`}</MenuItem>
+                            <MenuItem value={'24 >'}>{`24 > Tahun`}</MenuItem>
+                          </Select>
+                        )}
+                      />
+                      {errors.age && <FormHelperText sx={{ color: 'error.main' }}>{errors.age.message}</FormHelperText>}
+                    </FormControl>
+                    <FormControl fullWidth sx={{ mb: 4 }}>
+                      <FormLabel component='legend'>Jenis Kelamin / Gender</FormLabel>
+                      <Controller
+                        name='gender'
+                        control={control}
+                        rules={{ required: true }}
+                        render={({ field: { value, onChange, onBlur } }) => (
+                          <RadioGroup
+                            row
+                            value={value}
+                            onChange={onChange}
+                            onBlur={onBlur}
+                          >
+                            <FormControlLabel value='female' control={<Radio />} label='Perempuan / Female' />
+                            <FormControlLabel value='male' control={<Radio />} label='Laki-laki / Male' />
+                          </RadioGroup>
+                        )}
+                      />
+                      {errors.gender && <FormHelperText sx={{ color: 'error.main' }}>{errors.gender.message}</FormHelperText>}
+                    </FormControl>
+                    <FormControl fullWidth sx={{ mb: 4 }}>
+                      <FormLabel component='legend'>Kewarganegaraan / Citizen</FormLabel>
+                      <Controller
+                        name='citizen'
+                        control={control}
+                        rules={{ required: true }}
+                        render={({ field: { value, onChange, onBlur } }) => (
+                          <RadioGroup
+                            row
+                            value={value}
+                            onChange={onChange}
+                            onBlur={onBlur}
+                          >
+                            <FormControlLabel value='WNI' control={<Radio />} label='WNI / Indonesia Citizen' />
+                            <FormControlLabel value='WNA' control={<Radio />} label='WNA / Foreign Citizen' />
+                          </RadioGroup>
+                        )}
+                      />
+                      {errors.citizen && <FormHelperText sx={{ color: 'error.main' }}>{errors.citizen.message}</FormHelperText>}
+                    </FormControl>
+                    <FormControl fullWidth sx={{ mb: 4 }}>
+                      <FormLabel component='legend'>Kota / City</FormLabel>
+                      <Controller
+                        name='city'
+                        control={control}
+                        rules={{ required: true }}
+                        render={({ field: { value, onChange, onBlur } }) => (
+                          <TextField
+                            value={value}
+                            onBlur={onBlur}
+                            onChange={onChange}
+                            error={Boolean(errors.city)}
+                            placeholder='Kota / City'
+                          />
+                        )}
+                      />
+                      {errors.city && <FormHelperText sx={{ color: 'error.main' }}>{errors.city.message}</FormHelperText>}
+                    </FormControl>
+                    <FormControl fullWidth sx={{ mb: 4 }}>
+                      <FormLabel component='legend'>Email</FormLabel>
+                      <Controller
+                        name='email'
+                        control={control}
+                        rules={{ required: true }}
+                        render={({ field: { value, onChange, onBlur } }) => (
+                          <TextField
+                            value={value}
+                            onBlur={onBlur}
+                            onChange={onChange}
+                            error={Boolean(errors.email)}
+                            placeholder='your@mail.com'
+                          />
+                        )}
+                      />
+                      {errors.email && <FormHelperText sx={{ color: 'error.main' }}>{errors.email.message}</FormHelperText>}
+                    </FormControl>
+                    <FormControl fullWidth sx={{ mb: 4 }}>
+                      <FormLabel component='legend'>Kontak Telepon / Phone Number</FormLabel>
+                      <Controller
+                        name='phone'
+                        control={control}
+                        rules={{ required: true }}
+                        render={({ field: { value, onChange, onBlur } }) => (
+                          <TextField
+                            value={value}
+                            onBlur={onBlur}
+                            onChange={onChange}
+                            error={Boolean(errors.phone)}
+                            placeholder='+62 '
+                          />
+                        )}
+                      />
+                      {errors.phone && <FormHelperText sx={{ color: 'error.main' }}>{errors.phone.message}</FormHelperText>}
+                    </FormControl>
+                  </DialogContent>
+                  <DialogActions className='dialog-actions-dense'>
+                    <Button onClick={handleClose} >Kembali / Back</Button>
+                    <Button type='submit' variant='contained'>Kirim / Submit</Button>
+                  </DialogActions>
+                </form>
+              </Dialog>
+            </Grid>
           )}
       </Grid>
 
@@ -536,7 +536,7 @@ const PameranDetailPage = () => {
           </Typography>
         )) || (
             <Grid container spacing={4}>
-            {fests.map((e: any) => (
+              {fests.map((e: any) => (
                 <Grid item xs={12} sm={6} md={4} key={e._id} sx={{ mb: 4 }}>
                   <CardActionArea component='a' onClick={() => router.push('/pameran/' + e._id)} >
                     <Card
